@@ -1,4 +1,4 @@
-const { ToggleButton } = require('sdk/ui/button/toggle');
+const { ActionButton } = require('sdk/ui/button/action');
 const { Panel } = require('sdk/panel');
 const querystring = require('sdk/querystring');
 const store = require('sdk/simple-storage').storage;
@@ -135,22 +135,24 @@ function getParams() {
   });
 }
 
-function handleButtonChange(state) {
-  if (state.checked) {
-    Metrics.pingTelemetry('txp_toolbar_menu_1', 'clicked', Date.now());
-    panel.experiments = getExperimentList(
-      store.availableExperiments || {},
-      store.installedAddons || {});
-    const height = Math.min(
-      (panel.experiments.length * EXPERIMENT_HEIGHT) + FOOTER_HEIGHT,
-      MAX_HEIGHT
-    );
-    panel.show({
-      height,
-      width: PANEL_WIDTH,
-      position: button
-    });
-  }
+function handleButton() {
+  Metrics.pingTelemetry('txp_toolbar_menu_1', 'clicked', Date.now());
+  tabs.open('https://testpilot.firefox.com');
+
+  panel.experiments = getExperimentList(
+    store.availableExperiments || {},
+    store.installedAddons || {});
+/* Disable the panel, and just open the experiments page instead.
+  const height = Math.min(
+    (panel.experiments.length * EXPERIMENT_HEIGHT) + FOOTER_HEIGHT,
+    MAX_HEIGHT
+  );
+  panel.show({
+    height,
+    width: PANEL_WIDTH,
+    position: button
+  });
+*/
 }
 
 function checkSurvey(url) {
@@ -166,11 +168,11 @@ const ToolbarButton = module.exports = {
   init: function(settingsIn) {
     settings = settingsIn;
 
-    button = ToggleButton({ // eslint-disable-line new-cap
+    button = ActionButton({ // eslint-disable-line new-cap
       id: 'testpilot-link',
       label: 'Test Pilot',
       icon: './transparent-16.png',
-      onChange: handleButtonChange
+      onClick: handleButton
     });
 
     panel = Panel({ // eslint-disable-line new-cap
