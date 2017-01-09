@@ -196,10 +196,9 @@ measurements = Uw privacy
 experimentPrivacyNotice = Hier vindt u meer info over het verzamelen van gegevens voor { $title }.
 contributorsHeading = Aangeboden door
 contributorsExtraLearnMore = Meer info
-version = Versie
 changelog = changelog
-tourLink = rondleiding
-lastUpdate = Laatste update
+tour = Rondleiding
+tourLink = Rondleiding starten
 contribute = Bijdragen
 bugReports = Bugrapporten
 discourse = Discourse
@@ -223,7 +222,7 @@ upgradeNoticeLink = Hoe u Firefox kunt bijwerken.
 [[ uninstall ]]
 
 retireDialogTitle = Test Pilot verwijderen?
-retireMessage = Zoals u wilt. Hierdoor worden alle actieve testes uitgeschakeld, de add-on gede-installeerd en uw accountgegevens van onze servers verwijderd.
+retireMessage = Zoals u wilt. Hierdoor worden alle actieve tests uitgeschakeld, de add-on gede-installeerd en uw accountgegevens van onze servers verwijderd.
 retireEmailMessage = Om u van updates per e-mail uit te schrijven, klikt u eenvoudig op de koppeling <em>uitschrijven</em> in een willekeurige Test Pilot-e-mail.
 retireSubmitButton = Doorgaan
 retireCancelButton = Annuleren
@@ -285,7 +284,7 @@ newsletterFormSubmitButtonSubmitting = Verzenden...
 [[ newsletterFooter ]]
 
 newsletterFooterError = Er is een fout opgetreden bij het verzenden van uw e-mailadres. Opnieuw proberen?
-newsletterFooterHeader = Blijf geïnformeerd
+newsletterFooterHeader = Blijf op de hoogte
 newsletterFooterBody = Ontdek nieuwe experimenten en bekijk testresultaten voor experimenten die u hebt geprobeerd.
 newsletterFooterSuccessHeader = Bedankt!
 newsletterFooterSuccessBody = Als u nog niet eerder een inschrijving voor een Mozilla-gerelateerde nieuwsbrief hebt bevestigd, dient u dit mogelijk te doen. Controleer uw Postvak IN of uw spamfilter op een e-mail van ons.

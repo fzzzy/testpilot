@@ -107,12 +107,15 @@ emailOptInButton = Ad jerdeɣ iman-iw
 emailOptInSkip = Suref
 emailOptInConfirmationTitle = Imayl ittwaciyeɛ
 emailOptInSuccessMessage2 = Tanemirt-ik
+emailOptInConfirmationClose = Ɣef tirmitin…
 
 
 
 # A listing of all Test Pilot experiments.
 [[ experimentsList ]]
 
+experimentListPageHeader = Theggaḍ ad tesrifgeḍ!
+experimentListPageSubHeader = Fren timahilin timaynutin i tebɣid ad tɛerḍeḍ.<br> Uɣal-d tikelt nniḍen akken ad tɛerḍeḍ tiyaḍ.
 experimentListEnabledTab = Irmed
 experimentListJustLaunchedTab = Ikker tura akka
 experimentListJustUpdatedTab = Ittwalqem tura akka
@@ -142,6 +145,7 @@ feedbackUninstallTitle = Tanemirt!
 [[ discussNotify ]]
 
 discussNotifyTitle = Rǧǧu kan yiwet tasint...
+discussNotifySubmitButton = Awi-yi ar unmager
 discussNotifyCancelButton = Sefsex
 
 
@@ -154,11 +158,19 @@ experimentPreFeedbackLinkCopy = Fk-ed  tuɣalin n usuddem ɣef urmitan { $title 
 
 
 
+# A splash shown on top of the experiment page when Test Pilot is not installed.
+[[ experimentPromo ]]
+
+experimentPromoHeader = Theggaḍ ad tesrifgeḍ?
+
+
+
 # The experiment detail page. 
 [[ experimentPage ]]
 
 isEnabledStatusMessage = { $title } ittwarmed.
 participantCount = <span>{ $installation_count }</span> imttekkiyen
+otherExperiments = Ɛreḍ ula d tirmitin-agi nniḍen.
 giveFeedback = Awi-d  tuɣalin n usuddem
 disableHeader = Kkes armed i urmitan?
 disableExperiment = Kkes armed { $title }
@@ -168,10 +180,16 @@ enableExperimentTransition = Armed...
 measurements = Tabaḍnit-inek
 experimentPrivacyNotice = Tzemreḍ ad tisineḍ ugar ɣef ulqwaḍ n isefka i { $title } dagi.
 contributorsHeading = Iwwi-yak-tt-id 
-version = Alqem
-lastUpdate = Alqem aneggaru
+contributorsExtraLearnMore = Issin ugar
+changelog = Tizmilin n lqem
+tour = Tirza fessusen
+tourLink = Senker tirza fessusen
+contribute = Ttekki
+bugReports = Ineqqisen n ibugen
+discourse = Discourse
 tourOnboardingTitle = { $title } ittwarmed!
 tourDoneButton = Tefra
+userCountContainer = Llan <span>{ $installation_count }</span> n yemdanen ttaɣraḍen { $title } akka tura!
 userCountContainerAlt = Ikker tura akka!
 highlightPrivacy = Tabaḍnit inek
 
@@ -180,6 +198,7 @@ highlightPrivacy = Tabaḍnit inek
 # Shown when an experiment requires a version of Firefox newer than the user's.
 [[ upgradeNotice ]]
 
+upgradeNoticeTitle = { $title } yesra Firefox { $min_release } neɣ ugar.
 upgradeNoticeLink = Amek ad tleqmeḍ Firefox.
 
 
@@ -192,18 +211,38 @@ retireSubmitButton = Kemmel
 retireCancelButton = Sefsex
 pageTitleRetirePage = Firefox Test Pilot - Kkes Test Pilot
 retirePageProgressMessage = Asexsi...
+retirePageHeadline = Tanemmirt ɣef usrifeg!
+
+
+
+# Shown to users after installing Test Pilot if a restart is required.
+[[ restartIntro ]]
+
+restartIntroLead = Asenqed send asrifeg
+restartIntroOne = Ales tanekra n iminig inek
+restartIntroTwo = Af-d azegrir Test Pilot
+restartIntroThree = Fren tirmitin inek
 
 
 
 # Shown on a page presented to users three days after installing their first experiment.
 [[ share ]]
 
+sharePrimary = Tḥemleḍ Test Pilot? Mudd-aɣ-d afus ad d-naf kra n isekyaden.
 shareEmail = Imayl
 shareCopy = Nɣel
 
 # Shown on pages of retired or retiring experiments.
 eolIntroMessage = { $title } add ifak di { $completedDate }
 eolNoticeLink = Issin ugar
+completedDateLabel = Azemz n tagara n termit <b>{ $completedDate }</b>
+
+
+
+# A warning shown to users looking at experiments incompatible with add-ons they already have installed.
+[[ incompatible ]]
+
+incompatibleHeader = Tarmit-agi ur temṣada ara akked izegrar i tesbedded.
 
 
 

@@ -19,6 +19,15 @@ activitystreamContributors9Title = 產品經理
 activitystreamContributors10Title = 工程經理
 activitystreamContributors11Title = 軟體工程師
 activitystreamContributors12Title = 資深 UX 設計師
+cliqzDescription = 更快得到搜尋結果。當您在網址列打字時，Cliqz 會在下方顯示建議，同時仍然保有您的隱私。
+cliqzIntroduction = 直接從瀏覽器，更快得到搜尋結果。當您在網址列打字時，Cliqz 會在下方顯示從網路上取得的建議。Cliqz 會避免取得可識別出個人的資料或為使用者建立紀錄，您的搜尋行為更有隱私。
+cliqzMeasurements = <p>Cliqz Test Pilot 實驗是由 Cliqz GmbH 及 Mozilla 共同提供給您。Cliqz 是設計來保護您的隱私，同時避免取得能夠建立使用者偏好資料庫的敏感資料。然而要匿名化這樣的資料是困難的，還是有可能會被搜尋引擎識別出某些人。</p><p>除了所有 Test Pilot 都會收集的 <a href="/privacy">資料</a> 外，以下是您使用 Cliqz 時應該知道的事情:</p><p>Cliqz GmbH 會收集關於您的搜尋與上網行為的資料，包含: <ul><li>在網址列輸入的文字</li><li>您送到某些搜尋引擎的查詢</li><li>您在網頁上的互動行為，例如滑鼠移動、卷軸滾動、頁面停留時間</li></ul></p><p>Cliqz GmbH 會收集下列遙測統計資料: <ul><li>您與 Cliqz 中的某些欄位及按鈕的互動方式。此資料會與獨特識別編號相關聯，讓 Cliqz GmbH 能夠了解不同時間的效能表現</li></ul></p><p>Mozilla 也會收集下列遙測統計資料: <ul><li>前往搜尋引擎頁面的次數，以及使用的是哪套搜尋引擎。</li><li>Cliqz 的獨特識別編號，讓 Mozilla 可尋找 Firefox 及 Cliqz 遙測統計資料當中相關聯的部分</li></ul></p>
+cliqzDetails0Copy = 在網址列輸入想要搜尋的詞彙，看搜尋結果跟變魔術一樣出現。
+cliqzDetails1Copy = 在網址列下方快速查看天氣等即時資訊。
+cliqzDetails2Copy = 開啟新分頁時，只要滑鼠一點就可以回到您最愛的網站，您還可以調整您的最愛清單。
+cliqzToursteps0Copy = <p>在網址列輸入要搜尋的詞彙，即可檢視即時搜尋結果。</p>
+cliqzToursteps1Copy = <p>開啟分頁，加入您最愛的網站快速開啟。</p>
+cliqzToursteps2Copy = <p>您可隨時提供意見回饋，或在 Test Pilot 停用 Cliqz。</p>
 minvidDescription = 把影片放在畫面正中間。Min Vid 讓您可以將 YouTube 和 Vimeo 的影片放到前景的一個小方塊，瀏覽網頁時可以保持在前景播放。
 minvidIntroduction = <p>喜歡看影片嗎？喜歡一邊看影片一邊作事情嗎？快試試 Min Vid。這個實驗就跟電視一樣，可提供網頁內容與影片的子母畫面。</p><ul><li><strong>隨點即用:</strong> 在您上網時可將 Mid Vid 影片框彈出到前景。</li><li><strong>隨處可放:</strong> 您可將 Min Vid 的影片框拖曳到桌面上任何地方。</li><li><strong>控制功能:</strong> Min Vid 影片框當中有暫停、播放、快轉、拖曳、最小化、調整音量等功能。</li></ul>
 minvidMeasurements = <p>除了所有 Test Pilot 都會收集的 <a href="/privacy">資料</a> 外，以下是您使用 Min Vid 時應該知道的事情:</p><ul><li>我們會收集您使用滑鼠右鍵選單、實驗圖示及播放器控制元件的使用資料</li><li>我們也會收集您遇到的可播放影片的次數、您播放影片的次數，以及提供該影片的供應商。這些資訊可幫助我們了解此實驗對使用者來說有多有用。</li><li>我們不會收集您遇到的影片的個別資訊。</li></ul>
@@ -36,7 +45,7 @@ minvidContributors3Title = 工程貢獻者
 nomore404sSubtitle = Powered by the Wayback Machine
 nomore404sDescription = 對網頁上的死路感到厭倦了嗎？我們會在您尋找的網頁找不到，而 Internet Archive 的 Wayback Machine 當中有已儲存的版本時讓您知道。
 nomore404sIntroduction = <p>這個實驗很簡單，如果您遇到 404 找不到網頁的錯誤，我們會讓您知道這個網頁在 Internet Archive 的 Wayback Machine 中有沒有存檔的版本可用。</p>
-nomore404sMeasurements = <p>除了所有 Test Pilot 都會收集的 <a href="/privacy" target="_blank">資料</a> 外，以下是您使用 No More 404s 時應該知道的事情:</p><ul><li>我們會收集您遇到「找不到網頁」（代碼 404）錯誤、該頁面在 Archive.org 上已有存檔、以及您選擇檢視該存檔版本的次數。</li><li>為了提供頁面的快取版本，我們會將找不到的網頁網址傳送到 Archive.org。<a href="https://archive.org/" target="_blank">Archive.org</a> 在 <a href="https://archive.org/about/terms.php" target="_blank">這裡</a> 揭露了他們的隱私權保護政策。<li>我們不會收集您想瀏覽的網頁網址，以及送到 Archive.org 查詢的網址。</li><li>我們可能會將與此實驗相關，您送出給我們的問卷內容、以及加總過的 Telemetry 資料分享給 Internet Archive。</li></ul>
+nomore404sMeasurements = <p>除了所有 Test Pilot 都會收集的 <a href="/privacy" target="_blank">資料</a> 外，以下是您使用 No More 404s 時應該知道的事情:</p><ul><li>我們會收集您遇到「找不到網頁」（代碼 404）錯誤、該頁面在 Archive.org 上已有存檔、以及您選擇檢視該存檔版本的次數。</li><li>為了提供頁面的快取版本，我們會將找不到的網頁網址傳送到 Archive.org。<a href="https://archive.org/" target="_blank">Archive.org</a> 在 <a href="https://archive.org/about/terms.php" target="_blank">這裡</a> 揭露了他們的隱私權保護政策。</li><li>我們不會收集您想瀏覽的網頁網址，以及送到 Archive.org 查詢的網址。</li><li>我們可能會將與此實驗相關，您送出給我們的問卷內容、以及加總過的 Telemetry 資料分享給 Internet Archive。</li></ul>
 nomore404sDetails0Copy = 使用 Wayback Machine，減少遇到 404 錯誤時的死路。
 nomore404sDetails1Copy = 由我們在 Internet Archive 的好朋友們為您提供。
 nomore404sToursteps0Copy = <p>如日常一般上網即可。若您遇到 404 錯誤頁面，我們就會讓您知道 Wayback Machine 上是否有存檔版本。</p>
@@ -88,7 +97,7 @@ trackingprotectionContributors2Title = 資深 QA 工程師
 trackingprotectionContributorsextra = 此實驗建築於由 Firefox 的員工與貢獻者過去幾年開發出的追蹤保護技術。
 universalsearchDescription = 當您在 Awesome Bar 智慧位置列輸入時，立即取得最佳網站的推薦。
 universalsearchIntroduction = <p>使用 Universal Search 快速前往想要的網頁。只要在 Awesome Bar 智慧網址列打幾個字，最熱門的網站、人物與維基百科條目就會出現在您的眼前。</p>
-universalsearchMeasurements = <p>除了所有 Test Pilot 都會收集的 <a href="/privacy">資料</a> 外，以下是您使用 Universal Search 時應該知道的事情:</p><ul><li>我們會收集您如何與 Awesome Bar 智慧網址列互動，包含打過多少字元、點擊結果的類型、以及這些結果在清單中的位置等基本使用資料。</li><li>若您先前設定過 Firefox，要在搜尋列中顯示搜尋建議，安裝 Universal Search 後也將會開啟 <a href="https://www.mozilla.org/privacy/firefox/#searchsuggestions" target="_blank">搜尋建議</a>。<li>當您使用 Awesome Bar 時，我們會傳送您輸入的字詞到我們推薦的搜尋引擎中，我們會匿名地保留常見的搜尋以改善我們的建議品質。</li><li>我們使用了幾個第三方服務來提供 Universal Search。包含 <a href="http://www.bing.com/developers/s/APIBasics.html" target="_blank">Bing</a> 及 <a href="https://developer.yahoo.com/boss/search/" target="_blank">Yahoo</a> 來提供搜尋建議，以及 <a href="http://docs.embed.ly/docs/" target="_blank">Embedly</a> 和 <a href="https://clearbit.com/logo" target="_blank">Clearbit</a> 來提供這些建議的更多資料（如圖片或圖示）。為了在 Awesome Bar 顯示這些建議，Universal Search 可能會直接從 Embedly 和 Clearbit 直接下載圖片，可能會讓這些服務知道您的 IP 地址，以及您要求了哪些圖片。</li></ul>
+universalsearchMeasurements = <p>除了所有 Test Pilot 都會收集的 <a href="/privacy">資料</a> 外，以下是您使用 Universal Search 時應該知道的事情:</p><ul><li>我們會收集您如何與 Awesome Bar 智慧網址列互動，包含打過多少字元、點擊結果的類型、以及這些結果在清單中的位置等基本使用資料。</li><li>若您先前設定過 Firefox，要在搜尋列中顯示搜尋建議，安裝 Universal Search 後也將會開啟 <a href="https://www.mozilla.org/privacy/firefox/#searchsuggestions" target="_blank">搜尋建議</a>。</li><li>當您使用 Awesome Bar 時，我們會傳送您輸入的字詞到我們推薦的搜尋引擎中，我們會匿名地保留常見的搜尋以改善我們的建議品質。</li><li>我們使用了幾個第三方服務來提供 Universal Search。包含 <a href="http://www.bing.com/developers/s/APIBasics.html" target="_blank">Bing</a> 及 <a href="https://developer.yahoo.com/boss/search/" target="_blank">Yahoo</a> 來提供搜尋建議，以及 <a href="http://docs.embed.ly/docs/" target="_blank">Embedly</a> 和 <a href="https://clearbit.com/logo" target="_blank">Clearbit</a> 來提供這些建議的更多資料（如圖片或圖示）。為了在 Awesome Bar 顯示這些建議，Universal Search 可能會直接從 Embedly 和 Clearbit 直接下載圖片，可能會讓這些服務知道您的 IP 地址，以及您要求了哪些圖片。</li></ul>
 universalsearchDetails0Copy = 您打字時，就會跳出知名網站、名人、維基百科條目。
 universalsearchToursteps0Copy = <p>現在可以在同一個地方搜尋與導航。</p>
 universalsearchToursteps1Copy = <p>您打字時，就會出現知名網站的推薦與維基百科條目。</p>

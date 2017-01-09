@@ -18,7 +18,6 @@ introduction: >
   </ul>
 image_twitter: /static/images/experiments/min-vid/social/mv-twitter.jpg
 image_facebook: /static/images/experiments/min-vid/social/mv-facebook.jpg
-version: '0.3.1'
 changelog_url: 'https://github.com/meandavejustice/min-vid/blob/master/CHANGELOG.md'
 contribute_url: 'https://github.com/meandavejustice/min-vid'
 bug_report_url: 'https://github.com/meandavejustice/min-vid/issues'
@@ -35,8 +34,8 @@ measurements: >
       iPhone PBR&B subway tile, kale chips occupy af hexagon vaporware.</li>
     <li>Franzen vinyl polaroid cold-pressed hashtag flexitarian.</li>
   </ul>
-xpi_url: 'https://testpilot.firefox.com/files/min-vid/latest'
-addon_id: '@example-experiment'
+xpi_url: 'https://testpilot.firefox.com/files/@sloth/latest'
+addon_id: '@sloth'
 gradient_start: '#8725A7'
 gradient_stop: '#035295'
 details:
@@ -85,6 +84,5 @@ contributors:
     avatar: /static/images/experiments/min-vid/avatars/jen-kagan.jpg
 installation_count: 1
 created: '2016-09-22T00:07:28.847430Z'
-modified: '2016-10-06T22:19:14.129Z'
 completed: '2016-11-16T20:15:00Z'
 order: 999

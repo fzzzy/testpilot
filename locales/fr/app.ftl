@@ -129,7 +129,7 @@ experimentListEndingSoon = Se termine bientôt
 
 experimentCardManage = Gérer
 experimentCardGetStarted = Lancez-vous
-experimentCardLearnMore = En savoir plus
+experimentCardLearnMore = Apprenez-en davantage
 
 
 
@@ -186,10 +186,9 @@ measurements = Confidentialité
 experimentPrivacyNotice = Vous pouvez en apprendre davantage sur la collecte de données pour { $title } ici.
 contributorsHeading = Conçu et réalisé par
 contributorsExtraLearnMore = En savoir plus
-version = Version
 changelog = notes de version
+tour = Visite guidée
 tourLink = visite guidée
-lastUpdate = Dernière mise à jour
 contribute = Participer
 bugReports = Rapports de bogues
 discourse = Discourse

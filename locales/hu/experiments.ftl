@@ -19,6 +19,14 @@ activitystreamContributors9Title = Termékmenedzser
 activitystreamContributors10Title = Műszaki menedzser
 activitystreamContributors11Title = Szoftverfejlesztő mérnök
 activitystreamContributors12Title = Senior UX dizájner
+cliqzDescription = Kapjon hamarabb keresési eredményeket. A Cliqz javaslatokat jelenít meg gépelés közben a címsorban. Mindezt a magánszférája megtartásával.
+cliqzIntroduction = Kapjon hamarabb keresési eredményeket, közvetlenül a böngészőben. Kezdjen el gépelni, és lássa a javaslatokat a Webről valós időben, a címsor alatt. Mivel a Cliqz nem gyűjt személyazonosításra alkalmas adatokat, és nem készít felhasználói profilokat, ezért az eredmények jobban tiszteletben tartják a magánszféráját.
+cliqzDetails0Copy = Nézze hogy megjelennek az eredmények (mint a mágia lenne!) miközben a címsorba ír.
+cliqzDetails1Copy = Lásson valós idejű összegző információkat – mint az időjárás vagy programok időpontjai – közvetlenül a címsor alatt.
+cliqzDetails2Copy = Térjen vissza a kedvenc webhelyeire egyetlen kattintással, amikor új lapot nyit meg. Testre is szabhatja a kedvenceit.
+cliqzToursteps0Copy = <p>Írjon a címsorba valós idejű találatokért.</p>
+cliqzToursteps1Copy = <p>Nyisson új lapot, és adja hozzá a kedvenc webhelyeit, hogy egy kattintással elérje őket.</p>
+cliqzToursteps2Copy = <p>Bármikor adhat visszajelzést vagy letilthatja a Cliqz-et a Tesztpilótából.</p>
 minvidDescription = Tartsa szem előtt a videókat. A Min Vid segítségével a YouTube és Vimeo videókat megjelenítheti egy kis keretben, amely az előtérben marad, miközben böngészi a webet.
 minvidIntroduction = <p>Imád videókat nézni? Szereti elvégezni a dolgait videónézés közben? Próbálja ki a Min Videt. Olyan mint „kép a képben”, ahol az egyik kép a videó, a másik pedig a Web egésze.</p><ul><li><strong>Kattintson és menjen:</strong> kapcsolja be a Min Vid keretet és tartsa a videókat az előtérben, miközben böngész.</li><li><strong>Tegye ahová szeretné:</strong> a Min Viddel oda húzhatja a képkeretet az asztalán, amerre csak szeretné.</li><li><strong>Vezérlők ahol kell:</strong> a Min Vid vezérlőket is tartalmaz, amellyel elindíthat/szüneteltethet, húzhat, minimalizálhat, és állíthatja a hangerőt, közvetlenül a keretben.</li></ul>
 minvidMeasurements = <p>Az összes Tesztpilóta kísérlet által összegyűjtött <a href="/privacy">adat</a> mellett, itt van néhány kulcsfontosságú dolog, amelyekről érdemes tudnia, ha a Min Videt használja:</p><ul><li>Használati adatokat gyűjtünk amikor a környezeti menüt, a kísérleti ikont és a vezérlőelemeket használja.</li> <li>Azt is gyűjtjük hogy hányszor találkozik lejátszható videóval, hányszor játszik le egy videót, és hogy melyik videószolgáltatás volt a forrás. Ez segít nekünk megérteni hogy mennyire hasznos a kísérlet a felhasználóink számára.</li> <li>Arról nem gyűjtünk információt, hogy pontosan mely videókkal találkozott.</li></ul>

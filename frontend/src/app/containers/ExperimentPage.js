@@ -212,7 +212,7 @@ export class ExperimentDetail extends React.Component {
             showPreFeedbackDialog, showEolDialog,
             stickyHeaderSiblingHeight } = this.state;
 
-    const { title, version, contribute_url, bug_report_url, discourse_url,
+    const { title, contribute_url, bug_report_url, discourse_url,
             introduction, measurements, privacy_notice_url, changelog_url,
             thumbnail, subtitle, survey_url, contributors, contributors_extra, contributors_extra_url, details,
             min_release, graduation_report } = experiment;
@@ -222,8 +222,8 @@ export class ExperimentDetail extends React.Component {
     setExperimentLastSeen(experiment);
 
     const surveyURL = buildSurveyURL('givefeedback', title, installed, clientUUID, survey_url);
-    const modified = formatDate(experiment.modified);
     const graduated = isAfterCompletedDate(experiment);
+    const currentExperiments = experiments.filter(x => !isAfterCompletedDate(x));
 
     let statusType = null;
     if (experiment.error) {
@@ -329,18 +329,16 @@ export class ExperimentDetail extends React.Component {
                     {!graduated && <div>
                       {hasAddon && <section className="stats-section" data-hook="active-user">
                         <table className="stats"><tbody>
-                          <tr data-hook="version-container">
-                            <td data-l10n-id="version">Version</td>
-                            <td>
-                              <span data-hook="version">{version}</span>
-                              {changelog_url && <span>&nbsp;<a data-l10n-id="changelog" data-hook="changelog-url" href={changelog_url}>changelog</a>, </span>}
-                              <a className="showTour" data-l10n-id="tourLink" onClick={e => this.showTour(e)} href="#">tour</a>
-                            </td>
-                          </tr>
                           <tr>
-                            <td data-l10n-id="lastUpdate">Last Update</td>
-                            <td data-hook="modified-date">{modified}</td>
+                            <td data-l10n-id="tour">Tour</td>
+                            <td><a className="showTour" data-l10n-id="tourLink" onClick={e => this.showTour(e)} href="#">Launch Tour</a></td>
                           </tr>
+                          {changelog_url && <tr>
+                            <td data-l10n-id="changelog">Changelog</td>
+                            <td>
+                             {changelog_url && <a data-hook="changelog-url" href={changelog_url}>{changelog_url}</a>}
+                            </td>
+                          </tr>}
                           <tr>
                             <td data-l10n-id="contribute">Contribute</td>
                             <td><a data-hook="contribute-url" href={contribute_url}>{contribute_url}</a></td>
@@ -434,6 +432,7 @@ export class ExperimentDetail extends React.Component {
             <h2 className="card-list-header" data-l10n-id="otherExperiments">Try out these experiments as well</h2>
             <div className="responsive-content-wrapper delayed-fade-in" data-hook="experiment-list">
               <ExperimentCardList {...this.props}
+                                  experiments={currentExperiments}
                                   except={experiment.slug}
                                   eventCategory="ExperimentsDetailPage Interactions" />
             </div>

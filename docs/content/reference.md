@@ -19,6 +19,8 @@ To make a new experiment:
 
 An experiment's YAML file is considered to contain the canonical localization for English, and is compiled into [an FTL file](https://testpilot.dev.mozaws.net/static/locales/en-US/experiments.ftl) with each build. That file is monitored by Pontoon, and strings are translated by volunteer localizers.
 
+For new experiments, you must copy the build version from `frontend/build/static/locales/en-US/experiments.ftl` to `locales/en-US/experiments.ftl`, and include it in the pull request (ref #1781).
+
 If the content of a string changes sufficiently that translations of it should be invalidated:
 
 1. Make sure that this change needs to be done. We rely on volunteer localizers, 
@@ -184,17 +186,6 @@ gradient_stop: '#222222'
 ![Example thumbnail](img/thumbnail.png)
 
 
-## `version`
-
-The latest version number of the add-on. Shown on the experiment detail page. Required.
-
-```yaml
-version: '0.x.y'
-```
-
-![Example usage of version](img/version.png)
-
-
 ## `xpi_url`
 
 The URL to the Test Pilot-hosted XPI file. Required.
@@ -219,15 +210,6 @@ UTM-formatted date indicating the official launch of the experiment. Used to cal
 
 ```yaml
 created: '2016-01-01T00:00:00.000000Z'
-```
-
-
-## `modified`
-
-UTM-formatted date indicating the last time the experiment was updated. Displayed on the experiment detail page and used to calculate labels like "Just Updated". Optional.
-
-```yaml
-modified: '2016-01-01T00:00:00.000000Z'
 ```
 
 
