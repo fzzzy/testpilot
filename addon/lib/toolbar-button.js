@@ -140,21 +140,6 @@ function handleButton() {
   tabs.open(settings.BASE_URL);
   store.toolbarButtonLastClicked = Date.now();
   ToolbarButton.updateButtonBadge(); // eslint-disable-line no-use-before-define
-
-/* Disable the panel, and just open the experiments page instead.
-  panel.experiments = getExperimentList(
-    store.availableExperiments || {},
-    store.installedAddons || {});
-  const height = Math.min(
-    (panel.experiments.length * EXPERIMENT_HEIGHT) + FOOTER_HEIGHT,
-    MAX_HEIGHT
-  );
-  panel.show({
-    height,
-    width: PANEL_WIDTH,
-    position: button
-  });
-*/
 }
 
 function checkSurvey(url) {
