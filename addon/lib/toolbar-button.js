@@ -137,7 +137,7 @@ function getParams() {
 
 function handleButton() {
   Metrics.pingTelemetry('txp_toolbar_menu_1', 'clicked', Date.now());
-  tabs.open('https://testpilot.firefox.com');
+  tabs.open(settings.BASE_URL);
   store.toolbarButtonLastClicked = Date.now();
   ToolbarButton.updateButtonBadge(); // eslint-disable-line no-use-before-define
 
