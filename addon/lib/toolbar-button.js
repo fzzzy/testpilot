@@ -138,11 +138,13 @@ function getParams() {
 function handleButton() {
   Metrics.pingTelemetry('txp_toolbar_menu_1', 'clicked', Date.now());
   tabs.open('https://testpilot.firefox.com');
+  store.toolbarButtonLastClicked = Date.now();
+  ToolbarButton.updateButtonBadge(); // eslint-disable-line no-use-before-define
 
+/* Disable the panel, and just open the experiments page instead.
   panel.experiments = getExperimentList(
     store.availableExperiments || {},
     store.installedAddons || {});
-/* Disable the panel, and just open the experiments page instead.
   const height = Math.min(
     (panel.experiments.length * EXPERIMENT_HEIGHT) + FOOTER_HEIGHT,
     MAX_HEIGHT
