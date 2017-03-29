@@ -3,6 +3,9 @@
   "description": "A place where ideas come to idea",
   "version": "1.0.0",
   "author": "Mozilla (https://mozilla.org/)",
+  "browser": {
+    "tos-pp": false
+  },
   "bugs": {
     "url": "https://github.com/mozilla/testpilot/issues"
   },
