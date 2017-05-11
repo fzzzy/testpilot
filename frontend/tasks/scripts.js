@@ -17,7 +17,7 @@ const runSequence = require('run-sequence');
 const packageJSON = require('../../package.json');
 
 const excludeVendorModules = [
-  'babel-polyfill',
+  'babel-polyfill'
 ];
 
 const includeVendorModules = [
@@ -45,7 +45,7 @@ gulp.task('scripts-clean', () => {
 });
 
 gulp.task('scripts-watch', () => {
-  gulp.watch([config.SRC_PATH + 'app/**/*.js'], ['scripts-app', 'scripts-app-individual']);
+  gulp.watch([config.SRC_PATH + 'app/**/*.js'], ['scripts-app']);
   gulp.watch('../../package.json', ['scripts-app-vendor']);
   gulp.watch(config.SRC_PATH + 'scripts/**/*.js', ['scripts-misc']);
 });
@@ -58,49 +58,15 @@ gulp.task('scripts-misc', () => {
     .pipe(gulp.dest(config.DEST_PATH + 'static/scripts'));
 });
 
-gulp.task('scripts-generate-static-html', () => {
-  return commonBrowserify('generate-static-html.js', browserify({
-    entries: [config.SRC_PATH + 'generate-static-html.js'],
-    debug: config.IS_DEBUG,
-    fullPaths: config.IS_DEBUG,
-    transform: [babelify],
-    standalone: 'generate-static-html',
-    bundleExternal: false
-  }).external(vendorModules), config.DEST_PATH);
-});
-
 gulp.task('scripts-app', () => {
   return commonBrowserify('app.js', browserify({
-    entries: [config.SRC_PATH + 'app.js'],
+    entries: [config.SRC_PATH + 'app/index.js'],
     debug: config.IS_DEBUG,
     fullPaths: config.IS_DEBUG,
     transform: [babelify],
     standalone: 'app',
     bundleExternal: false
   }).external(vendorModules));
-});
-
-gulp.task('scripts-app-individual', () => {
-  return Promise.all(
-    fs.readdirSync(config.SRC_PATH + 'pages')
-    .filter(entry => entry.endsWith('.js'))
-    .map(entry => new Promise((resolve, reject) => {
-      if (!fs.existsSync(config.DEST_PATH + 'static/app/')) {
-        fs.mkdirSync(config.DEST_PATH + 'static/app/');
-      }
-      browserify({
-        entries: [config.SRC_PATH + 'pages/' + entry],
-        debug: config.IS_DEBUG,
-        fullPaths: config.IS_DEBUG,
-        transform: [babelify],
-        standalone: entry.slice(0, entry.indexOf('.')),
-        bundleExternal: false
-      }).external(vendorModules).bundle().pipe(
-        fs.createWriteStream(config.DEST_PATH + 'static/app/' + entry)
-          .on('finish', resolve)
-      );
-    }))
-  );
 });
 
 gulp.task('scripts-app-vendor', () => {
@@ -112,8 +78,6 @@ gulp.task('scripts-app-vendor', () => {
 gulp.task('scripts-build', done => runSequence(
   'scripts-clean',
   'scripts-lint',
-  'scripts-generate-static-html',
-  'scripts-app-individual',
   'scripts-app',
   'scripts-misc',
   'scripts-app-vendor',
