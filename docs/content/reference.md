@@ -117,6 +117,18 @@ description: >
 
 ![Example Twitter share with description](img/description.png)
 
+## `warning`
+
+A warning message to let users know when an experiment is going to
+have conflicts with a specific version.
+
+```yaml
+warning: >
+  Firefox is changing fast. Tab Center may have bugs in Firefox 55 and
+  will be disabled completely in Firefox 56+.
+```
+
+![Example use of warning](img/warning.png)
 
 ## `introduction`
 
@@ -434,27 +446,6 @@ graduation_report: >
   </ul>
 ```
 
-
-## `notifications`
-
-An array of push notifications sent to the user to alert them of new content related to the experiment. Optional. Each should contain:
-
-- `id` - a sequential identifier for the notification. Required.
-- `title` - the notification title. Required, HTML not allowed.
-- `text` - text of the notification. Required, HTML not allowed.
-- `notify_after` - UTM-formatted date after which the notification should be displayed. Required.
-
-```yaml
-notifications:
-  -
-    id: 1
-    title: 'Hey, listen!'
-    text: 'Would you like to talk to Saria?'
-    notify_after: '2016-01-01T00:00:00Z'
-```
-
-![Example notification on macOS](img/notifications.png)
-
 ## `eol_warning`
 
 When your experiement is ending, add this field to idicate to users what will happen next.
@@ -474,8 +465,17 @@ The minimum version of Firefox with which this experiment is compatible. If the 
 ```yaml
 min_release: 99
 ```
-
 ![Warning shown to users with incompatible versions of Firefox](img/min_release.png)
+
+## `max_release`
+
+The maximum version of Firefox with which this experiment is compatible. If the user is browsing with a version higher than this number, an incompatibility notice is displayed. Optional.
+
+```yaml
+max_release: 2084
+```
+
+![Warning shown to users with incompatible versions of Firefox](img/max_release.png)
 
 
 ## `incompatible`

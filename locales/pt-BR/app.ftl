@@ -1,7 +1,7 @@
 siteName = Firefox Test Pilot
 
 
-# Page titles, put in the <title> HTML tag.
+// Page titles, put in the <title> HTML tag.
 [[ pageTitle ]]
 
 pageTitleDefault = Firefox Test Pilot
@@ -10,8 +10,7 @@ pageTitleExperimentListPage = Firefox Test Pilot - Experiências
 pageTitleExperiment = Firefox Test Pilot - { $title }
 
 
-
-# Links in the footer.
+// Links in the footer.
 [[ footerLink ]]
 
 footerLinkCookies = Cookies
@@ -21,8 +20,7 @@ footerLinkLegal = Informações legais
 footerLinkAbout = Sobre o Test Pilot
 
 
-
-# Items in the menu.
+// Items in the menu.
 [[ menu ]]
 
 home = Início
@@ -33,8 +31,7 @@ menuFileIssue = Relatar um problema
 menuRetire = Remover Test Pilot
 
 
-
-# The splash on the homepage.
+// The splash on the homepage.
 [[ landing ]]
 
 landingIntroOne = Teste novos recursos.
@@ -44,8 +41,7 @@ landingLegalNotice = Ao prosseguir, você concorda com os <a>termos de uso</a> e
 landingExperimentsTitle = Teste nossos experimentos mais recentes
 
 
-
-# Related to the installation of the Test Pilot add-on.
+// Related to the installation of the Test Pilot add-on.
 [[ landingInstall ]]
 
 landingInstallButton = Instale a extensão do Test Pilot
@@ -53,16 +49,14 @@ landingInstallingButton = Instalando...
 landingInstalledButton = Escolher os experimentos
 
 
-
-# Related to a one click to install test pilot and an experiment.
+// Related to a one click to install test pilot and an experiment.
 [[ oneClickInstall ]]
 
 oneClickInstallMinorCta = Instalar o Test Pilot &amp;
 oneClickInstallMajorCta = Habilitar { $title }
 
 
-
-# Homepage messaging for users not on Firefox or with an old version of Firefox.
+// Homepage messaging for users not on Firefox or with an old version of Firefox.
 [[ landingFirefox ]]
 
 landingRequiresDesktop = O Test Pilot requer o Firefox para Windows, Mac ou Linux
@@ -73,8 +67,7 @@ landingUpgradeFirefoxTitle = Atualize o Firefox
 landingDownloadFirefoxSubTitle = Baixe gratuitamente
 
 
-
-# A section of the homepage explaining how Test Pilot works.
+// A section of the homepage explaining how Test Pilot works.
 [[ landingCard ]]
 
 landingCardListTitle = Começar em 3, 2, 1
@@ -83,15 +76,13 @@ landingCardTwo = Habilite recursos experimentais
 landingCardThree = Diga-nos o que você achou
 
 
-
-# Shown after the user installs the Test Pilot add-on.
+// Shown after the user installs the Test Pilot add-on.
 [[ onboarding ]]
 
 onboardingMessage = Colocamos um ícone na sua barra de ferramentas, assim você sempre encontrará o Test Pilot.
 
 
-
-# Error message pages.
+// Error message pages.
 [[ error ]]
 
 errorHeading = Oopa!
@@ -99,25 +90,17 @@ errorMessage = Parece que quebramos alguma coisa. <br> Talvez, tente novamente m
 notFoundHeader = Não encontrado!
 
 
-
-# A modal prompt to sign up for the Test Pilot newsletter.
+// A modal prompt to sign up for the Test Pilot newsletter.
 [[ emailOptIn ]]
 
 emailOptInDialogTitle = Bem vindo ao Test Pilot!
 emailOptInMessage = Descubra novas experiência e veja os resultados dos testes que você participou.
-emailValidationError = Por favor, use um e-mail válido!
-
-# LOCALIZATION NOTE: The ':)' characters in the emailOptInInput placeholder are a smiley face emoticon.
-emailOptInInput = 
-  [html/placeholder] o e-mail vai aqui :)
-emailOptInButton = Assinar
 emailOptInConfirmationTitle = E-mail enviado
 emailOptInSuccessMessage2 = Obrigado!
 emailOptInConfirmationClose = Vamos aos experimentos...
 
 
-
-# A listing of all Test Pilot experiments.
+// A listing of all Test Pilot experiments.
 [[ experimentsList ]]
 
 experimentListEnabledTab = Habilitado
@@ -128,8 +111,7 @@ experimentListEndingSoon = Terminando em breve
 experimentsListCondensedHeader = Escolha seus experimentos!
 
 
-
-# An individual experiment in the listing of all Test Pilot experiments.
+// An individual experiment in the listing of all Test Pilot experiments.
 [[ experimentCard ]]
 
 experimentCardManage = Gerenciar
@@ -137,36 +119,32 @@ experimentCardGetStarted = Começar
 experimentCardLearnMore = Saiba mais
 
 
-
-# A modal prompt shown when a user disables an experiment.
+// A modal prompt shown when a user disables an experiment.
 [[ feedback ]]
 
 feedbackSubmitButton = Responda a uma pesquisa rápida
 feedbackUninstallTitle = Obrigado!
-feedbackUninstallCopy = 
-  | Sua participação no Firefox Test Pilot significa
-  | muito! Por favor, veja os outros experimentos, 
-  | e fique ligado nas novidades!
+feedbackUninstallCopy =
+    Sua participação no Firefox Test Pilot significa
+    muito! Por favor, veja os outros experimentos, 
+    e fique ligado nas novidades!
 
 
-
-# A modal prompt shown before the feedback survey for some experiments.
+// A modal prompt shown before the feedback survey for some experiments.
 [[ experimentPreFeedback ]]
 
 experimentPreFeedbackTitle = { $title } opinião
 experimentPreFeedbackLinkCopy = Dê sua opinião sobre o experimento { $title }
 
 
-
-# A splash shown on top of the experiment page when Test Pilot is not installed.
+// A splash shown on top of the experiment page when Test Pilot is not installed.
 [[ experimentPromo ]]
 
 experimentPromoHeader = Pronto para decolar?
 experimentPromoSubheader = Estamos construindo novos recursos para o Firefox. Instale o Test Pilot para testá-los!
 
 
-
-# The experiment detail page.
+// The experiment detail page.
 [[ experimentPage ]]
 
 isEnabledStatusMessage = { $title } está habilitado.
@@ -179,6 +157,7 @@ disableExperiment = Desabilitar { $title }
 disableExperimentTransition = Desabilitando…
 enableExperiment = Habilitar { $title }
 enableExperimentTransition = Habilitando…
+experimentManuallyDisabled = { $title } desativado no Gerenciador de Extensões
 experimentMeasurementIntro = Além dos <a>dados</a> coletados por todas as experiências do Test Pilot, aqui estão as principais coisas que você deve saber sobre o que acontece quando você usar o { $experimentTitle }:
 measurements = Sua privacidade
 experimentPrivacyNotice = Você pode saber mais sobre a coleção de dados de { $title } aqui.
@@ -197,16 +176,16 @@ userCountContainerAlt = Lançado!
 highlightPrivacy = Sua privacidade
 
 
-
-# Shown when an experiment requires a version of Firefox newer than the user's.
+// Shown when an experiment requires a version of Firefox newer than the user's.
 [[ upgradeNotice ]]
 
 upgradeNoticeTitle = { $title } requer o Firefox { $min_release } ou mais recente.
 upgradeNoticeLink = Como atualizar o Firefox.
+versionChangeNotice = { $experiment_title } não é suportado nesta versão do Firefox.
+versionChangeNoticeLink = Obter a versão atual do Firefox.
 
 
-
-# Shown while uninstalling Test Pilot.
+// Shown while uninstalling Test Pilot.
 [[ uninstall ]]
 
 retireDialogTitle = Remover Test Pilot?
@@ -220,8 +199,7 @@ retirePageMessage = Esperamos que tenha se divertido fazendo os experimentos. <b
 retirePageSurveyButton = Responder à pesquisa
 
 
-
-# Shown to users after installing Test Pilot if a restart is required.
+// Shown to users after installing Test Pilot if a restart is required.
 [[ restartIntro ]]
 
 restartIntroLead = Lista de requisitos de vôo
@@ -230,44 +208,40 @@ restartIntroTwo = Instale a extensão do Test Pilot
 restartIntroThree = Selecione seus experimentos
 
 
-
-# Shown on a page presented to users three days after installing their first experiment.
+// Shown on a page presented to users three days after installing their first experiment.
 [[ share ]]
 
 sharePrimary = Gostou do Test Pilot? Ajude a encontrar novos recrutas.
 shareSecondary = basta copiar e colar esse link...
 shareEmail = E-mail
 shareCopy = Copiar
-
-# Shown on pages of retired or retiring experiments.
+// Shown on pages of retired or retiring experiments.
 eolIntroMessage = { $title } terminará em { $completedDate }
 eolNoticeLink = Saiba mais
 eolDisableMessage = O tempo para experimentar o { $title } terminou. Se você remover não será mais possível reinstalar pelo Test Pilot.
 completedDateLabel = Término do experimento: <b>{ $completedDate }</b>
 
 
-
-# A warning shown to users looking at experiments incompatible with add-ons they already have installed.
+// A warning shown to users looking at experiments incompatible with add-ons they already have installed.
 [[ incompatible ]]
 
 incompatibleHeader = Esse experimento pode ser incompatível com as extensões que você tem instaladas.
 incompatibleSubheader = Recomendamos <a>desabilitar essas extensões</a> antes de ativar o experimento:
 
 
-
-# A form prompting the user to sign up for the Test Pilot Newsletter.
+// A form prompting the user to sign up for the Test Pilot Newsletter.
 [[ newsletterForm ]]
 
-newsletterFormEmailPlaceholder = 
-  [html/placeholder] Informe seu e-mail
+newsletterFormEmailPlaceholder
+    .placeholder = Informe seu e-mail
 newsletterFormDisclaimer = Somente enviaremos informações relacionadas ao Test Pilot.
 newsletterFormPrivacyNotice = Eu aceito que a Mozilla manuseie minhas informações como explicado <a>neste Termo de Privacidade</a>.
-newsletterFormSubmitButton = Inscreva-se Agora
+newsletterFormPrivacyAgreementRequired = Por favor, marque esta opção se deseja continuar.
+newsletterFormSubmitButton = Inscreva-se agora
 newsletterFormSubmitButtonSubmitting = Enviando...
 
 
-
-# A section of the footer containing a newsletter signup form.
+// A section of the footer containing a newsletter signup form.
 [[ newsletterFooter ]]
 
 newsletterFooterError = Houve um erro ao enviar seu endereço de e-mail. Tentar novamente?
@@ -277,16 +251,14 @@ newsletterFooterSuccessHeader = Obrigado!
 newsletterFooterSuccessBody = Se ainda não confirmou a inscrição no boletim de notícias da Mozilla, talvez precise disso. Por favor, verifique sua caixa de entrada ou seu filtro de spam por um e-mail nosso.
 
 
-
-# A warning shown to users when the experiment is not available in their language
+// A warning shown to users when the experiment is not available in their language
 [[ localeWarning ]]
 
 localeUnavailableWarningTitle = Esta experiência não está disponível no seu idioma (⁨{ $locale_code }⁩).
 localeWarningSubtitle = Você ainda pode habilitá-lo se quiser.
 
 
-
-# An alternate splash page shown to users who have had Test Pilot installed for some time, but have no experiments installed.
+// An alternate splash page shown to users who have had Test Pilot installed for some time, but have no experiments installed.
 [[ experimentsListNoneInstalled ]]
 
 experimentsListNoneInstalledHeader = Vamos tirar essa belezinha do chão!
@@ -294,8 +266,7 @@ experimentsListNoneInstalledSubheader = Pronto para um novo experimento do Test 
 experimentsListNoneInstalledCTA = Não tem interesse? <a>Conte por quê</a>.
 
 
-
-# Shown to users who do not have JavaScript enabled.
+// Shown to users who do not have JavaScript enabled.
 [[ noscript ]]
 
 noScriptHeading = Uh oh...
@@ -303,10 +274,8 @@ noScriptMessage = Test Pilot requer JavaScript.<br>Desculpe por isso.
 noScriptLink = Descubra por quê
 
 
-
-# Text of a button to toggle visibility of a list of past experiments.
+// Text of a button to toggle visibility of a list of past experiments.
 [[ pastExperiments ]]
 
 viewPastExperiments = Ver experimentos antigos
 hidePastExperiments = Esconder experimentos antigos
-

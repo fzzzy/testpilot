@@ -1,10 +1,7 @@
 id: 10
 title: 'Snooze Tabs'
 slug: snooze-tabs
-locales:
-  - 'en'
-locale_grantlist:
-  - 'en'
+locales: ['en', 'cs', 'de', 'dsb', 'es', 'fr', 'fy', 'hsb', 'hu', 'id', 'it', 'ja', 'kab', 'nl', 'pt', 'ru', 'sk', 'sl', 'sq', 'sv', 'tr', 'zh']
 incompatible:
   'blok@mozilla.org': 'Tracking Protection'
 thumbnail: /static/images/experiments/snooze-tabs/icon/thumbnail.png
@@ -64,7 +61,6 @@ tour_steps:
   -
     image: /static/images/experiments/snooze-tabs/tour/tour5.jpg
     copy: You can always give us feedback or disable Snooze Tabs from Test Pilot.
-notifications: []
 contributors:
   -
     display_name: 'Les Orchard'

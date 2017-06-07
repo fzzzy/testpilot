@@ -16,7 +16,8 @@ describe('app/components/MainInstallButton', () => {
       isFirefox: true,
       isMinFirefox: true,
       isMobile: false,
-      installAddon: sinon.spy(),
+      installAddon: sinon.spy(() => Promise.resolve()),
+      navigateTo: sinon.spy(),
       varianttests: {
         installButtonBorder: "default"
       }
@@ -66,10 +67,11 @@ describe('app/components/MainInstallButton', () => {
     expect(props.installAddon.calledOnce).to.equal(true);
   });
 
-  it('does nothing on button click when hasAddon is true', () => {
+  it('navigates to the /experiments page on button click when hasAddon is true', () => {
     subject.setProps({ hasAddon: true });
     subject.find('.install').simulate('click', {});
     expect(props.installAddon.called).to.equal(false);
+    expect(props.navigateTo.calledWith('/experiments')).to.equal(true);
   });
 
   it('shows the button when the white border variant test is chosen', () => {

@@ -1,26 +1,36 @@
-import { createActions } from 'redux-actions';
+// @flow
 
-export default createActions({
+import type {
+  Experiment,
+  UpdateExperimentAction,
+  FetchUserCountsAction,
+  SetSlugAction
+} from '../reducers/experiments.js';
 
-  updateExperiment: (addonID, data) => ({ addonID, data }),
+export function updateExperiment(addonID: string, data: Experiment): UpdateExperimentAction {
+  return {
+    type: 'UPDATE_EXPERIMENT',
+    payload: { addonID, data }
+  };
+}
 
-  fetchExperiments: (experimentsUrl, countsUrl) => {
-    let experiments = [];
-    return fetch(experimentsUrl)
-      .then(response => response.json())
-      .then(data => {
-        experiments = data.results;
-        return fetch(countsUrl);
-      })
-      .then(response => response.json())
-      .then(counts => ({
-        lastFetched: Date.now(),
-        experimentsLoaded: true,
-        data: experiments.map(experiment => ({
-          ...experiment,
-          installation_count: counts[experiment.addon_id]
-        }))
-      }));
-  }
+export function fetchUserCounts(countsUrl: string): Promise<FetchUserCountsAction> {
+  return fetch(countsUrl)
+    .then(
+      response => {
+        if (response.ok) {
+          return response.json().then(data => ({
+            type: 'FETCH_USER_COUNTS',
+            payload: data
+          }));
+        }
+        throw new Error('Could not get user counts');
+      });
+}
 
-});
+export function setSlug(slug: string): SetSlugAction {
+  return {
+    type: 'SET_SLUG',
+    payload: slug
+  };
+}

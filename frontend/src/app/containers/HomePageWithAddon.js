@@ -7,7 +7,7 @@ import Copter from '../components/Copter';
 import EmailDialog from '../components/EmailDialog';
 import ExperimentCardList from '../components/ExperimentCardList';
 import LayoutWrapper from '../components/LayoutWrapper';
-import LoadingPage from './LoadingPage';
+import MainInstallButton from '../components/MainInstallButton';
 import PastExperiments from '../components/PastExperiments';
 import View from '../components/View';
 
@@ -20,6 +20,7 @@ export default class HomePageWithAddon extends React.Component {
 
     let showEmailDialog = false;
     if (getCookie('first-run') ||
+      typeof window !== 'undefined' &&
       getWindowLocation().search.indexOf('utm_campaign=restart-required') > -1) {
       removeCookie('first-run');
       showEmailDialog = true;
@@ -39,7 +40,7 @@ export default class HomePageWithAddon extends React.Component {
   }
 
   renderSplash() {
-    if (window.location.search.includes('utm_content=no-experiments-installed')) {
+    if (typeof window !== 'undefined' && window.location.search.includes('utm_content=no-experiments-installed')) {
       return (
         <Banner background={true}>
           <LayoutWrapper flexModifier="row-between-breaking">
@@ -80,7 +81,7 @@ export default class HomePageWithAddon extends React.Component {
   render() {
     const { experiments, isAfterCompletedDate } = this.props;
 
-    if (experiments.length === 0) { return <LoadingPage />; }
+    if (experiments.length === 0) { return null; }
 
     const { showEmailDialog } = this.state;
     const currentExperiments = experiments.filter(x => !isAfterCompletedDate(x));
@@ -103,7 +104,7 @@ export default class HomePageWithAddon extends React.Component {
 }
 
 HomePageWithAddon.propTypes = {
-  hasAddon: React.PropTypes.bool,
+  hasAddon: React.PropTypes.any,
   getCookie: React.PropTypes.func,
   removeCookie: React.PropTypes.func,
   getWindowLocation: React.PropTypes.func,

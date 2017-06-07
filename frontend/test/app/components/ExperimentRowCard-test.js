@@ -184,7 +184,7 @@ describe('app/components/ExperimentRowCard', () => {
     expect(findByL10nID('experimentCardManage')).to.have.property('length', 1);
   })
 
-  it('should ping GA and open the detail page when clicked', () => {
+  it('should ping GA when clicked', () => {
     subject.find('.experiment-summary').simulate('click', mockClickEvent);
 
     expect(props.sendToGA.lastCall.args).to.deep.equal(['event', {
@@ -192,15 +192,13 @@ describe('app/components/ExperimentRowCard', () => {
       eventAction: 'Open detail page',
       eventLabel: mockExperiment.title
     }]);
-    expect(props.navigateTo.lastCall.args[0])
-      .to.equal(`/experiments/${mockExperiment.slug}`);
   });
 
-  it('should have a Link component with the right properties', () => {
-    const link = subject.find('Link');
+  it('should have an anchor component with the right properties', () => {
+    const link = subject.find('a');
     expect(link).to.not.be.a('null');
     expect(link.props()).to.contain.all({
-      to: `/experiments/${mockExperiment.slug}`,
+      href: `/experiments/${mockExperiment.slug}`,
       className: 'experiment-summary'
     });
   });

@@ -5,7 +5,7 @@ import { shallow, mount } from 'enzyme';
 import moment from 'moment';
 
 import ExperimentPage, { ExperimentDetail } from '../../../src/app/containers/ExperimentPage';
-import { initialState as newsletterState } from '../../../src/app/reducers/newsletter-form';
+import { defaultState } from '../../../src/app/reducers/newsletter-form';
 
 
 const CHANGE_HEADER_ON = 105;
@@ -19,13 +19,13 @@ describe('app/containers/ExperimentPage', () => {
   const mockExperiments = [ mockExperiment ];
   const mockParams = { slug: mockExperiment.slug };
   const mockProps = {
+    slug: mockExperiment.slug,
     getCookie: sinon.spy(),
     removeCookie: sinon.spy(),
     experiments: [ mockExperiment ],
     getExperimentBySlug: slug => {
       return slug === mockExperiment.slug ? mockExperiment : null;
-    },
-    params: { slug: mockExperiment.slug }
+    }
   };
 
   it('should pass the correct experiment to children', () => {
@@ -113,11 +113,9 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
       getCookie: sinon.spy(),
       removeCookie: sinon.spy(),
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:51.0) Gecko/20100101 Firefox/51.0',
-      newsletterForm: newsletterState,
-      setPageTitleL10N: sinon.spy(),
-      varianttests: {
-        experimentPageToggles: "default"
-      }
+      newsletterForm: defaultState(),
+      getWindowLocation: sinon.spy(() => 'https://example.com'),
+      setPageTitleL10N: sinon.spy()
     };
 
     subject = shallow(<ExperimentDetail {...props} />);
@@ -158,8 +156,8 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
     expect(findByL10nID('testingDetails0Copy')).to.have.property('length', 0);
   });
 
-  it('should render a loading page if no experiments are available', () => {
-    expect(subject.find('LoadingPage')).to.have.property('length', 1);
+  it('should not render experiment content if no experiment content is loaded', () => {
+    expect(subject.find('#experiment-page')).to.have.property('length', 0);
   });
 
   it('should render a 404 page if experiment is undefined', () => {
@@ -338,7 +336,7 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
       });
 
       it('should display a warning only if userAgent does not meet minimum version', () => {
-        const experiment = setExperiment({ ...mockExperiment, min_release: 50 });
+        const experiment = setExperiment({ ...mockExperiment, min_release: 50});
 
         const userAgentPre = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:51.0) Gecko/20100101 Firefox/';
 
@@ -360,6 +358,32 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
         subject.setProps({ userAgent: `${userAgentPre}51.0` });
         expect(subject.find('.upgrade-notice')).to.have.property('length', 0);
         expect(subject.find('.experiment-controls')).to.have.property('length', 1);
+      });
+
+      it('should display a warning only if userAgent does not meet maximum version limit', () => {
+        const experiment = setExperiment({ ...mockExperiment, max_release: 52 });
+
+        const userAgentPre = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:51.0) Gecko/20100101 Firefox/';
+
+        subject.setProps({ userAgent: `${userAgentPre}49.0` });
+        expect(subject.find('.upgrade-notice')).to.have.property('length', 0);
+        expect(subject.find('.experiment-controls')).to.have.property('length', 1);
+
+        subject.setProps({ userAgent: `${userAgentPre}50.0` });
+        expect(subject.find('.upgrade-notice')).to.have.property('length', 0);
+        expect(subject.find('.experiment-controls')).to.have.property('length', 1);
+
+        subject.setProps({ userAgent: `${userAgentPre}53.0` });
+        expect(subject.find('.upgrade-notice')).to.have.property('length', 1);
+        expect(subject.find('.experiment-controls')).to.have.property('length', 0);
+
+        findByL10nID('versionChangeNoticeLink').simulate('click', mockClickEvent);
+
+        expect(props.sendToGA.lastCall.args).to.deep.equal(['event', {
+          eventCategory: 'ExperimentDetailsPage Interactions',
+          eventAction: 'Upgrade Notice',
+          eventLabel: experiment.title
+        }]);
       });
 
       it('should display a banner if the experiment has an error status', () => {
@@ -475,7 +499,7 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
           expect(button.prop('href')).to.equal(expectedHref);
         });
 
-        it('should navigate to survey URL when "Give Feedback" clicked', () => {
+        it('should send a GA event when "Give Feedback" clicked', () => {
           const experiment = setExperiment(mockExperiment);
           const button = subject.find('#feedback-button');
           const expectedHref = button.prop('href');
@@ -485,8 +509,7 @@ describe('app/containers/ExperimentPage:ExperimentDetail', () => {
           expect(props.sendToGA.lastCall.args).to.deep.equal(['event', {
             eventCategory: 'ExperimentDetailsPage Interactions',
             eventAction: 'Give Feedback',
-            eventLabel: experiment.title,
-            outboundURL: expectedHref
+            eventLabel: experiment.title
           }]);
         });
 

@@ -21,6 +21,8 @@ Once you've got a good version of Node.js installed for your operating system,
 here are some shell commands to get you started on Linux & OS X:
 
 ```bash
+cd testpilot
+
 # Set up add-on environment and build an unsigned package
 cd addon
 npm install
@@ -32,7 +34,7 @@ npm install
 
 # Add hostname alias to /etc/hosts and start up dev webserver
 echo '127.0.0.1 example.com' | sudo tee -a /etc/hosts
-USE_HTTPS=1 npm start
+npm start
 ```
 
 **Note:** While you *will* be able to see the web site locally via
@@ -73,6 +75,11 @@ you should be on your way:
 
    1. Enter `false` for the value.
 
+   1. Enter `extensions.webapi.testing` for the name.
+
+   1. Enter `true` for the value. This is needed for whitelisting mozAddonManager
+      on testpilot.stage.mozaws.net, testpilot.dev.mozaws.net, and example.com.
+
 1. View your local site in Firefox Developer Edition at https://example.com:8000/
 
 [devedition]: https://www.mozilla.org/en-US/firefox/developer/
@@ -88,6 +95,8 @@ for you to get it working.
 After installing Node.js for Windows, run these commands to get started:
 
 ```cmd
+cd testpilot
+
 :: Set up add-on environment and build an unsigned package
 cd addon
 npm install

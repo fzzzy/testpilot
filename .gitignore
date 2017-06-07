@@ -3,6 +3,8 @@
 *.log
 *.pyc
 *.sw?
+*.tox
+*.cache
 
 # Files to ignore in the base directory
 coverage
@@ -22,14 +24,9 @@ media/
 node_modules/
 static/
 tmp/
-locales/en/
-locales/de-DE/
 
 # Files to ignore within specific directories
 addon/*.rdf
 addon/*.xpi
 addon/locale/
 legal-copy/*html
-old-addon/*.rdf
-old-addon/*.xpi
-old-addon/locale/

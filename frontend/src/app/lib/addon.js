@@ -2,42 +2,21 @@
 import cookies from 'js-cookie';
 
 import addonActions from '../actions/addon';
-import experimentActions from '../actions/experiments';
+import { updateExperiment } from '../actions/experiments';
 import { getExperimentByID, getExperimentByURL, getExperimentInProgress } from '../reducers/experiments';
 
 const INSTALL_STATE_WATCH_PERIOD = 2000;
 const DISCONNECT_TIMEOUT = 3333;
-const MOZADDONMANAGER_ALLOWED_HOSTNAMES = [
-  'testpilot.firefox.com',
-  'testpilot.stage.mozaws.net',
-  'testpilot.dev.mozaws.net',
-  'example.com'
-];
 
-let RESTART_NEEDED;
-
-function mozAddonManagerInstall(url) {
-  return navigator.mozAddonManager.createInstall({ url }).then(install => {
-    navigator.mozAddonManager.addEventListener('onInstalling', data => {
-      RESTART_NEEDED = data.needsRestart;
-    });
-    return new Promise((resolve, reject) => {
-      install.addEventListener('onInstallEnded', () => resolve());
-      install.addEventListener('onInstallFailed', () => reject());
-      install.install();
-    });
-  });
+function listenForAddonMessages(store, handler) {
+  window.addEventListener('from-addon-to-web', handler);
+  pollAddon();
 }
 
 export function installAddon(requireRestart, sendToGA, eventCategory, eventLabel) {
   const { protocol, hostname, port } = window.location;
-  const path = '/static/addon/addon.xpi';
+  const path = '/static/addon/latest';
   const downloadUrl = `${protocol}//${hostname}${port ? ':' + port : ''}${path}`;
-  const useMozAddonManager = (
-    navigator.mozAddonManager &&
-    protocol === 'https:' &&
-    MOZADDONMANAGER_ALLOWED_HOSTNAMES.includes(hostname)
-  );
 
   const gaEvent = {
     eventCategory: eventCategory,
@@ -47,21 +26,9 @@ export function installAddon(requireRestart, sendToGA, eventCategory, eventLabel
 
   cookies.set('first-run', 'true');
 
-  let result;
-  if (useMozAddonManager) {
-    result = mozAddonManagerInstall(downloadUrl).then(() => {
-      gaEvent.dimension7 = RESTART_NEEDED ? 'restart required' : 'no restart';
-      sendToGA('event', gaEvent);
-      if (RESTART_NEEDED) {
-        requireRestart();
-      }
-    });
-  } else {
-    gaEvent.outboundURL = downloadUrl;
-    sendToGA('event', gaEvent);
-    result = Promise.resolve();
-  }
-  return result;
+  gaEvent.outboundURL = downloadUrl;
+  sendToGA('event', gaEvent);
+  return Promise.resolve();
 }
 
 export function uninstallAddon() {
@@ -69,21 +36,15 @@ export function uninstallAddon() {
 }
 
 export function setupAddonConnection(store) {
-  window.addEventListener(
-    'from-addon-to-web',
-    evt => messageReceived(store, evt)
-  );
-
-  store.dispatch(addonActions.setInstalled());
-  pollAddon();
+  listenForAddonMessages(store, evt => {
+    messageReceived(store);
+    handleMessage(store, evt);
+  });
 }
 
 let disconnectTimer = 0;
-function addonDisconnected(store) {
-  if (parseFloat(window.navigator.testpilotAddonVersion) > 0.8) {
-    store.dispatch(addonActions.setHasAddon(false));
-    pollAddon();
-  }
+function addonDisconnected() {
+  window.location.reload();
 }
 
 let pollTimer = 0;
@@ -92,37 +53,52 @@ export function pollAddon() {
   pollTimer = setTimeout(pollAddon, INSTALL_STATE_WATCH_PERIOD);
 }
 
-export function sendMessage(type, data) {
+export function listen(store) {
+  listenForAddonMessages(store, evt => {
+    messageReceived(store);
+
+    // HACK for setting installedAddons
+    const { type, data } = evt.detail;
+    if (type === 'sync-installed-result') {
+      store.dispatch(addonActions.setInstalledAddons(data.active));
+    }
+  });
+  store.dispatch(addonActions.setClientUuid(window.navigator.testpilotClientUUID));
+}
+
+export function enableExperiment(dispatch, experiment) {
+  dispatch(updateExperiment(experiment.addon_id, { inProgress: true }));
+  sendMessage('install-experiment', experiment);
+}
+
+export function disableExperiment(dispatch, experiment) {
+  dispatch(updateExperiment(experiment.addon_id, { inProgress: true }));
+  sendMessage('uninstall-experiment', experiment);
+}
+
+function sendMessage(type, data) {
   document.documentElement.dispatchEvent(new CustomEvent('from-web-to-addon', {
     bubbles: true,
     detail: { type, data }
   }));
 }
 
-export function enableExperiment(dispatch, experiment) {
-  dispatch(experimentActions.updateExperiment(experiment.addon_id, { inProgress: true }));
-  sendMessage('install-experiment', experiment);
-}
-
-export function disableExperiment(dispatch, experiment) {
-  dispatch(experimentActions.updateExperiment(experiment.addon_id, { inProgress: true }));
-  sendMessage('uninstall-experiment', experiment);
-}
-
-function messageReceived(store, evt) {
+function messageReceived(store) {
   if (pollTimer) {
     clearTimeout(pollTimer);
     pollTimer = 0;
   }
   clearTimeout(disconnectTimer);
   disconnectTimer = setTimeout(addonDisconnected.bind(null, store), DISCONNECT_TIMEOUT);
-
-  const { type, data } = evt.detail;
-  const { experiments, addon } = store.getState();
-
+  const { addon } = store.getState();
   if (!addon.hasAddon) {
     store.dispatch(addonActions.setHasAddon(true));
   }
+}
+
+function handleMessage(store, evt) {
+  const { type, data } = evt.detail;
+  const { experiments } = store.getState();
 
   let experiment;
   if (data && 'id' in data) {
@@ -146,39 +122,34 @@ function messageReceived(store, evt) {
       break;
     case 'addon-install:download-failed':
       store.dispatch(addonActions.disableExperiment(experiment));
-      store.dispatch(experimentActions.updateExperiment(
+      store.dispatch(updateExperiment(
         experiment.addon_id, { inProgress: false, error: true }
       ));
       break;
     case 'addon-install:install-failed':
       store.dispatch(addonActions.disableExperiment(experiment));
-      store.dispatch(experimentActions.updateExperiment(
+      store.dispatch(updateExperiment(
         experiment.addon_id, { inProgress: false, error: true }
       ));
       break;
     case 'addon-install:install-ended':
       store.dispatch(addonActions.enableExperiment(experiment));
-      store.dispatch(experimentActions.updateExperiment(
+      store.dispatch(updateExperiment(
         experiment.addon_id, { inProgress: false, error: false }
       ));
       break;
     case 'addon-uninstall:uninstall-ended':
       store.dispatch(addonActions.disableExperiment(experiment));
-      store.dispatch(experimentActions.updateExperiment(
+      store.dispatch(updateExperiment(
         experiment.addon_id, { inProgress: false, error: false }
       ));
       break;
-    /**
-     * TODO: See also issue #1300. These events work, but the corresponding
-     * behavior of the "Enable" UI button doesn't account for
-     * installed-but-disabled experiments
     case 'addon-manage:enabled':
-      store.dispatch(addonActions.enableExperiment(experiment));
+      store.dispatch(addonActions.manuallyEnableExperiment(experiment));
       break;
     case 'addon-manage:disabled':
-      store.dispatch(addonActions.disableExperiment(experiment));
+      store.dispatch(addonActions.manuallyDisableExperiment(experiment));
       break;
-    */
     default:
       break;
   }

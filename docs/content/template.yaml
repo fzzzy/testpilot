@@ -7,7 +7,9 @@ order: 0
 description: >
   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum cum ad deserunt
   iusto possimus. Fugiat odit corrupti cumque.
-
+warning: >
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum cum ad deserunt
+  iusto possimus. Fugiat odit corrupti cumque.
 introduction: >
   <p>Lorem ipsum dolor sit amet.</p>
   <p>Consectetur adipisicing elit.</p>
@@ -79,13 +81,6 @@ graduation_report: >
       suscipit, nam commodi excepturi error modi. Laborum eum, quae, alias facere,
       cupiditate vitae praesentium eveniet unde totam, architecto molestiae?</li>
   </ul>
-
-notifications:
-  -
-    id: 1
-    title: 'Hey, listen!'
-    text: 'Would you like to talk to Saria?'
-    notify_after: '2016-01-01T00:00:00Z'
 
 eol_warning: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'
 min_release: 99

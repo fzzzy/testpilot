@@ -4,7 +4,6 @@ import Banner from '../components/Banner';
 import Copter from '../components/Copter';
 import ExperimentCardList from '../components/ExperimentCardList';
 import LayoutWrapper from '../components/LayoutWrapper';
-import LoadingPage from './LoadingPage';
 import MainInstallButton from '../components/MainInstallButton';
 import PastExperiments from '../components/PastExperiments';
 import View from '../components/View';
@@ -17,35 +16,41 @@ export default class HomePageNoAddon extends React.Component {
     const currentExperiments = experiments.filter(x => !isAfterCompletedDate(x));
     const pastExperiments = experiments.filter(isAfterCompletedDate);
 
-    if (experiments.length === 0) { return <LoadingPage />; }
+    if (experiments.length === 0) { return null; }
+    if (this.props.hasAddon === true) {
+      this.props.navigateTo('/experiments');
+      return null;
+    }
+
+    const installSplash = <Banner background={true}>
+
+      <LayoutWrapper flexModifier="row-around-breaking">
+      <Copter animation="fly-up"/>
+        <div>
+          <h2 className="banner__title emphasis" data-l10n-id="landingIntroOne">Test new features.</h2>
+          <h2 className="banner__title emphasis" data-l10n-id="landingIntroTwo">Give your feedback.</h2>
+          <h2 className="banner__title emphasis" data-l10n-id="landingIntroThree">Help build Firefox.</h2>
+        </div>
+      </LayoutWrapper>
+
+      <LayoutWrapper flexModifier="column-center">
+        <div className="centered">
+          <MainInstallButton {...this.props} eventCategory="HomePage Interactions" eventLabel="Install the Add-on"/>
+        </div>
+      </LayoutWrapper>
+
+    </Banner>;
 
     return (
       <section id="landing-page">
         <View {...this.props}>
-          <Banner background={true}>
-
-            <LayoutWrapper flexModifier="row-around-breaking">
-            <Copter animation="fly-up"/>
-              <div>
-                <h2 className="banner__title emphasis" data-l10n-id="landingIntroOne">Test new features.</h2>
-                <h2 className="banner__title emphasis" data-l10n-id="landingIntroTwo">Give your feedback.</h2>
-                <h2 className="banner__title emphasis" data-l10n-id="landingIntroThree">Help build Firefox.</h2>
-              </div>
-            </LayoutWrapper>
-
-            <LayoutWrapper flexModifier="column-center">
-              <div className="centered">
-                <MainInstallButton {...this.props} eventCategory="HomePage Interactions" eventLabel="Install the Add-on"/>
-              </div>
-            </LayoutWrapper>
-
-          </Banner>
+          { installSplash }
 
           <Banner>
             <LayoutWrapper flexModifier="column-center">
-                <h2 className="banner__subtitle emphasis centered" data-l10n-id="landingExperimentsTitle">Try out the latest experimental features</h2>
-                <ExperimentCardList {...this.props} experiments={currentExperiments} eventCategory="HomePage Interactions" />
-                <PastExperiments {...this.props} pastExperiments={ pastExperiments } />
+              <h2 className="banner__subtitle emphasis centered" data-l10n-id="landingExperimentsTitle">Try out the latest experimental features</h2>
+              <ExperimentCardList {...this.props} experiments={currentExperiments} eventCategory="HomePage Interactions" />
+              <PastExperiments {...this.props} pastExperiments={ pastExperiments } />
             </LayoutWrapper>
           </Banner>
 
@@ -79,7 +84,7 @@ export default class HomePageNoAddon extends React.Component {
 }
 
 HomePageNoAddon.propTypes = {
-  hasAddon: React.PropTypes.bool,
+  hasAddon: React.PropTypes.any,
   isFirefox: React.PropTypes.bool,
   experiments: React.PropTypes.array,
   isAfterCompletedDate: React.PropTypes.func

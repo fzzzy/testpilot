@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 import classnames from 'classnames';
 
 import { experimentL10nId } from '../lib/utils';
@@ -17,12 +16,12 @@ export default class ExperimentRowCard extends React.Component {
   render() {
     const { hasAddon, experiment, enabled, isAfterCompletedDate } = this.props;
 
-    const { description, title, thumbnail, subtitle, slug } = experiment;
+    const { description, title, subtitle, slug } = experiment;
     const installation_count = (experiment.installation_count) ? experiment.installation_count : 0;
     const isCompleted = isAfterCompletedDate(experiment);
 
     return (
-      <Link id="show-detail" to={`/experiments/${slug}`} onClick={(evt) => this.openDetailPage(evt)}
+      <a id="show-detail" href={`/experiments/${slug}`} onClick={(evt) => this.openDetailPage(evt)}
         className={classnames('experiment-summary', {
           enabled,
           'just-launched': this.justLaunched(),
@@ -35,14 +34,8 @@ export default class ExperimentRowCard extends React.Component {
           {this.justLaunched() && <div data-l10n-id="experimentListJustLaunchedTab" className="tab just-launched-tab"></div>}
           {this.justUpdated() && <div data-l10n-id="experimentListJustUpdatedTab" className="tab just-updated-tab"></div>}
         </div>
-        <div className="experiment-icon-wrapper"
-          style={{
-            backgroundColor: experiment.gradient_start,
-            backgroundImage: `linear-gradient(135deg, ${experiment.gradient_start}, ${experiment.gradient_stop}`
-          }}>
-          <div className="experiment-icon" style={{
-            backgroundImage: `url(${thumbnail})`
-          }}></div>
+        <div className={`experiment-icon-wrapper-${experiment.slug} experiment-icon-wrapper`}>
+          <div className={`experiment-icon-${experiment.slug} experiment-icon`}></div>
         </div>
       <div className="experiment-information">
         <header>
@@ -54,7 +47,7 @@ export default class ExperimentRowCard extends React.Component {
         { this.renderInstallationCount(installation_count, isCompleted) }
         { this.renderManageButton(enabled, hasAddon, isCompleted) }
       </div>
-    </Link>
+    </a>
     );
   }
 
@@ -138,25 +131,22 @@ export default class ExperimentRowCard extends React.Component {
     return '';
   }
 
-  openDetailPage(evt) {
-    const { navigateTo, eventCategory, experiment, sendToGA } = this.props;
+  openDetailPage() {
+    const { eventCategory, experiment, sendToGA } = this.props;
     const { title } = experiment;
-
-    evt.preventDefault();
 
     sendToGA('event', {
       eventCategory,
       eventAction: 'Open detail page',
       eventLabel: title
     });
-    navigateTo(`/experiments/${experiment.slug}`);
   }
 
 }
 
 ExperimentRowCard.propTypes = {
   experiment: React.PropTypes.object.isRequired,
-  hasAddon: React.PropTypes.bool.isRequired,
+  hasAddon: React.PropTypes.any,
   enabled: React.PropTypes.bool.isRequired,
   eventCategory: React.PropTypes.string.isRequired,
   getExperimentLastSeen: React.PropTypes.func.isRequired,

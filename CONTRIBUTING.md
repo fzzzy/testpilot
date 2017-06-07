@@ -31,11 +31,11 @@ the Mozilla [wiki][wiki] has instructions.
 We use the same process for community members and paid staff.
 
 #### Tests
-Tests should be written for new code contributed.
-* [server tests example](testpilot/experiments/tests.py)
-* [client tests example](testpilot/frontend/static-src/test/)
 
-[Further docs on testing](./docs/TESTING.md).
+Tests should be written for new code contributed. See [`docs/development/testing.md`][testing]
+for more information.
+
+[testing]: ./docs/development/testing.md
 
 #### Branches
 
@@ -66,6 +66,11 @@ some changes or improvements or alternatives.
 #### Reviews
 
 We try to avoid landing any code without at least a cursory review.
+
+General rules for picking up reviews:
+ - if you are going to review a PR, assign yourself to it
+ - assigned person is responsible for helping get the PR over the finish line
+ - if a PR doesn't have an assigned person, it's up for grabs
 
 Reviewers will run through roughly the following checklist:
 - Does the code do what it says it does?

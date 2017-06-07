@@ -4,17 +4,17 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import NewsletterForm from '../../../src/app/components/NewsletterForm';
-
+import { defaultState } from '../../../src/app/reducers/newsletter-form';
 
 describe('app/components/NewsletterForm', () => {
 
   const _subject = (args = {}) => {
-    const props = {
+    const props = Object.assign(defaultState(), {
       subscribe: sinon.spy(),
       setEmail: sinon.spy(),
       setPrivacy: sinon.spy(),
       ...args
-    };
+    });
     return mount(<NewsletterForm {...props} />);
   };
 
@@ -92,7 +92,7 @@ describe('app/components/NewsletterForm', () => {
 
     it('should fire subscribe on submit', () => {
       const subscribe = sinon.spy();
-      const subject = _subject({ subscribe }).find('form');
+      const subject = _subject({ subscribe, privacy: true }).find('form');
       subject.simulate('submit');
       expect(subscribe.calledOnce).to.equal(true);
     });

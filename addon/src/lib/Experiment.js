@@ -23,19 +23,6 @@ function parseOptions(input: ?Object): TestPilotOptions {
   return options;
 }
 
-export class Notification {
-  id: number;
-  title: string;
-  text: string;
-  notify_after: string;
-  constructor(object: Object) {
-    this.id = object.id;
-    this.title = object.title;
-    this.text = object.text;
-    this.notify_after = object.notify_after;
-  }
-}
-
 export type FeatureFlag = 'enabled' | 'disabled';
 
 export type TestPilotOptions = {
@@ -52,12 +39,12 @@ export class Experiment {
   xpi_url: string;
   html_url: string;
   survey_url: string;
-  notifications: Array<Notification>;
   created: string;
   modified: string;
   completed: string;
   uninstalled: string;
   active: boolean;
+  manuallyDisabled: boolean;
   installDate: ?Date;
   launchDate: Date;
   localeGrantlist: Array<string>;
@@ -73,15 +60,13 @@ export class Experiment {
     this.xpi_url = toAbsoluteUrl(this.baseUrl, object.xpi_url);
     this.html_url = toAbsoluteUrl(this.baseUrl, object.html_url);
     this.survey_url = toAbsoluteUrl(this.baseUrl, object.survey_url);
-    this.notifications = Array.isArray(object.notifications)
-      ? object.notifications.map(o => new Notification(o))
-      : [];
     this.created = object.created;
     this.modified = object.modified;
     this.completed = object.completed;
     this.uninstalled = object.uninstalled;
 
     this.active = object.active || false;
+    this.manuallyDisabled = object.manuallyDisabled || false;
     this.installDate = object.installDate;
     this.launchDate = object.launch_date
       ? new Date(object.launch_date)
@@ -90,16 +75,6 @@ export class Experiment {
     this.localeGrantlist = object.locale_grantlist || [];
     this.localeBlocklist = object.locale_blocklist || [];
     this.testpilotOptions = parseOptions(object.testpilot_options);
-  }
-
-  allowsLocale(locale: string) {
-    const lang = locale.split('-')[0];
-    if (this.localeGrantlist.length) {
-      return this.localeGrantlist.includes(lang);
-    } else if (this.localeBlocklist.length) {
-      return !this.localeBlocklist.includes(lang);
-    }
-    return true;
   }
 
   toJSON() {
@@ -112,6 +87,7 @@ export class Experiment {
       modified: this.modified,
       completed: this.completed,
       active: this.active,
+      manuallyDisabled: this.manuallyDisabled,
       installDate: this.installDate
     };
   }

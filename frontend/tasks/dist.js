@@ -6,22 +6,25 @@ const runSequence = require('run-sequence');
 const RevAll = require('gulp-rev-all');
 
 gulp.task('dist-rev-assets', function() {
-  const revAll = new RevAll({
+  const revAll = RevAll.revision({
     dontRenameFile: [
       '.json',
       'favicon.ico',
       /static\/addon\/*/,
       /static\/locales\/*/,
+      /static\/images\/experiments\/[^]*\/social\/*/,
       '.html'
     ],
     dontUpdateReference: [
       /static\/addon\/*/,
+      /static\/locales\/*/,
       /.*\.json/,
+      /static\/images\/experiments\/[^]*\/social\/*/,
       'favicon.ico'
     ]
   });
   return gulp.src(config.DEST_PATH + '**')
-    .pipe(revAll.revision())
+    .pipe(revAll)
     .pipe(gulp.dest(config.DIST_PATH));
 });
 

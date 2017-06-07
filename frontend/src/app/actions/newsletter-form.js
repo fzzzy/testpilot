@@ -1,37 +1,33 @@
-import { createActions } from 'redux-actions';
-import 'isomorphic-fetch';
+import { subscribeToBasket } from '../lib/utils';
 
-export const basketUrl = 'https://basket.mozilla.org/news/subscribe/';
+function makeSimpleActionCreator(type) {
+  return (payload) => ({ type, payload });
+}
 
-const actions = createActions(
-  {
-    newsletterFormSetEmail: email => email,
-    newsletterFormSetPrivacy: privacy => privacy
-  },
-  'newsletterFormSetFailed',
-  'newsletterFormSetSubmitting',
-  'newsletterFormSetSucceeded'
-);
+const actions = {
+  newsletterFormSetEmail: makeSimpleActionCreator('NEWSLETTER_FORM_SET_EMAIL'),
+  newsletterFormSetPrivacy: makeSimpleActionCreator('NEWSLETTER_FORM_SET_PRIVACY'),
+  newsletterFormSetFailed: makeSimpleActionCreator('NEWSLETTER_FORM_SET_FAILED'),
+  newsletterFormSetSubmitting: makeSimpleActionCreator('NEWSLETTER_FORM_SET_SUBMITTING'),
+  newsletterFormSetSucceeded: makeSimpleActionCreator('NEWSLETTER_FORM_SET_SUCCEEDED')
+};
 
-const subscribeActions = createActions({
-  newsletterFormSubscribe: (dispatch, email, locale) => {
-    dispatch(actions.newsletterFormSetSubmitting());
-    fetch(basketUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: `newsletters=test-pilot&email=${encodeURIComponent(email)}&lang=${encodeURIComponent(locale)}`
+function newsletterFormSubscribe(dispatch, email, source) {
+  dispatch(actions.newsletterFormSetSubmitting());
+  subscribeToBasket(email, source)
+    .then(response => {
+      if (response.ok) {
+        dispatch(actions.newsletterFormSetSucceeded());
+      } else {
+        dispatch(actions.newsletterFormSetFailed());
+      }
     })
-      .then(response => {
-        if (response.ok) {
-          dispatch(actions.newsletterFormSetSucceeded());
-        } else {
-          dispatch(actions.newsletterFormSetFailed());
-        }
-      })
-      .catch(() => dispatch(actions.newsletterFormSetFailed()));
-  }
-});
+    .catch(() => dispatch(actions.newsletterFormSetFailed()));
+  return {
+    type: 'NEWSLETTER_FORM_SUBSCRIBE'
+  };
+}
 
-export default Object.assign({}, actions, subscribeActions);
+export default Object.assign({}, actions, {
+  newsletterFormSubscribe
+});

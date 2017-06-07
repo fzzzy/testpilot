@@ -37,6 +37,8 @@ TEN_MINUTES="600"
 ONE_YEAR="31536000"
 
 HPKP="\"Public-Key-Pins\": \"max-age=300;pin-sha256=\\\"WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=\\\";pin-sha256=\\\"r/mIkG3eEpVdm+u/ko/cwxzOMo1bk4TyHIlByibiA5E=\\\";pin-sha256=\\\"YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=\\\";pin-sha256=\\\"sRHdihwgkaib1P1gxX8HFszlD+7/gTfNvuAybgLPNis=\\\";\""
+
+# HACK: If this is changed, be sure to update the CSP constant in frontend/tasks/server.js
 CSP="\"content-security-policy\": \"default-src 'self'; connect-src 'self' https://sentry.prod.mozaws.net https://www.google-analytics.com https://ssl.google-analytics.com https://basket.mozilla.org https://analysis-output.telemetry.mozilla.org; font-src 'self' code.cdn.mozilla.net; form-action 'none'; frame-ancestors 'self'; img-src 'self' https://ssl.google-analytics.com https://www.google-analytics.com; object-src 'none'; script-src 'self' https://ssl.google-analytics.com; style-src 'self' code.cdn.mozilla.net; report-uri /__cspreport__;\""
 HSTS="\"strict-transport-security\": \"max-age=${ONE_YEAR}; includeSubDomains; preload\""
 TYPE="\"x-content-type-options\": \"nosniff\""
@@ -47,6 +49,8 @@ XSS="\"x-xss-protection\": \"1; mode=block\""
 if [ "$DEST" = "dev" ]; then
     TEN_MINUTES="15"
     ONE_YEAR="15"
+
+    # HACK: If this is changed, be sure to update the CSP constant in frontend/tasks/server.js
     CSP="\"content-security-policy\": \"default-src 'self'; connect-src 'self' https://sentry.prod.mozaws.net https://www.google-analytics.com https://ssl.google-analytics.com https://basket.mozilla.org https://analysis-output.telemetry.mozilla.org; font-src 'self' code.cdn.mozilla.net; form-action 'none'; frame-ancestors 'self' https://pontoon.mozilla.org; img-src 'self' https://pontoon.mozilla.org https://ssl.google-analytics.com https://www.google-analytics.com; object-src 'none'; script-src 'self' https://pontoon.mozilla.org https://ssl.google-analytics.com; style-src 'self' https://pontoon.mozilla.org code.cdn.mozilla.net; report-uri /__cspreport__;\""
 fi
 
@@ -153,3 +157,21 @@ for fn in $(find dist -name 'index.html' -not -path 'dist/index.html'); do
     --acl "public-read" \
     $fn s3://${TESTPILOT_BUCKET}/${s3path}
 done
+
+# The add-on lives at /static/addon/addon.xpi .  Let's create a /latest/ URL so
+# we can pass in the hash headers
+
+# Make sure we have an empty latest file
+> dist/static/addon/latest
+
+HASH=($(sha256sum dist/static/addon/addon.xpi))
+DIGEST="\"x-target-digest\": \"sha256:${HASH}\""
+LOCATION="\"location\": \"/static/addon/addon.xpi\""
+
+aws s3 cp \
+  --cache-control "max-age=${TEN_MINUTES}" \
+  --content-type "text/html" \
+  --metadata "{${HPKP}, ${HSTS}, ${TYPE}, ${LOCATION}, ${DIGEST}}" \
+  --metadata-directive "REPLACE" \
+  --acl "public-read" \
+  dist/static/addon/latest s3://${TESTPILOT_BUCKET}/static/addon/

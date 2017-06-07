@@ -15,6 +15,7 @@ import { storage } from 'sdk/simple-storage';
 import {
   TelemetryController
 } from 'resource://gre/modules/TelemetryController.jsm';
+import { Request } from 'sdk/request';
 
 import type Variants from './variants';
 
@@ -48,11 +49,10 @@ function experimentPing(event: ExperimentPingData) {
       test: subject,
       version: addon.version,
       timestamp: makeTimestamp(timestamp),
-      variants: (
-        storage.experimentVariants && subject in storage.experimentVariants
-          ? storage.experimentVariants[subject]
-          : null
-      ),
+      variants: storage.experimentVariants &&
+        subject in storage.experimentVariants
+        ? storage.experimentVariants[subject]
+        : null,
       payload: parsed
     };
     TelemetryController.submitExternalPing('testpilottest', payload, {
@@ -67,9 +67,7 @@ function experimentPing(event: ExperimentPingData) {
     const pcPayload = {
       // 'method' is used by testpilot-metrics library.
       // 'event' was used before that library existed.
-      event_type: (
-        parsed.event || parsed.method
-      ),
+      event_type: parsed.event || parsed.method,
       client_time: makeTimestamp(parsed.timestamp || timestamp),
       addon_id: subject,
       addon_version: addon.version,
@@ -77,7 +75,6 @@ function experimentPing(event: ExperimentPingData) {
       os_name: pcPing.environment.system.os.name,
       os_version: pcPing.environment.system.os.version,
       locale: pcPing.environment.settings.locale,
-      raw: JSON.stringify(pcPing),
       // Note: these two keys are normally inserted by the ping-centre client.
       client_id: ClientID.getCachedClientID(),
       topic: 'testpilot'
@@ -92,10 +89,12 @@ function experimentPing(event: ExperimentPingData) {
       }
     });
 
-    Services.appShell.hiddenDOMWindow.navigator.sendBeacon(
-      'https://tiles.services.mozilla.com/v3/links/ping-centre',
-      JSON.stringify(pcPayload)
-    );
+    const req = new Request({
+      url: 'https://tiles.services.mozilla.com/v3/links/ping-centre',
+      contentType: 'application/json',
+      content: JSON.stringify(pcPayload)
+    });
+    req.post();
   });
 }
 

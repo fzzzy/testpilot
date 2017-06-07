@@ -8,10 +8,9 @@ module.exports = {
   ENABLE_DEV_CONTENT: (process.env.ENABLE_DEV_CONTENT === '1'),
   AVAILABLE_LOCALES: (process.env.ENABLE_DEV_LOCALES === '1') ?
     // All locales on Pontoon for local & dev
-    // en is copied from en-US at build time, so we have to add it special
-    'en,' + fs.readdirSync('./locales').join(',')  :
+    fs.readdirSync('./locales').join(',')  :
     // Enabled locales for stage & production - update as they reach 100%
-    'en-US,en,cs,de,de-DE,dsb,es-ES,es-MX,fr,fy-NL,hsb,hu,it,ja,kab,nl,pt-BR,ru,sq,sv-SE,uk,zh-CN,zh-TW',
+    'en-US,cs,de,dsb,es-ES,es-MX,fr,fy-NL,hsb,hu,it,ja,kab,nl,nn-NO,pt-BR,pt-PT,ru,sk,sl,sq,sr,sv-SE,uk,zh-CN,zh-TW',
 
   // TODO: Move addon build to a better path
   ADDON_SRC_PATH: './addon/',
@@ -19,9 +18,9 @@ module.exports = {
   SRC_PATH: './frontend/src/',
   DEST_PATH: './frontend/build/',
   DIST_PATH: './dist/',
-  DJANGO_OLD_STATIC:  './testpilot/frontend/static/',
   CONTENT_SRC_PATH: './content-src/',
 
+  PRODUCTION_URL: 'https://testpilot.firefox.com',
   PRODUCTION_EXPERIMENTS_URL: 'https://testpilot.firefox.com/api/experiments',
   IMAGE_NEW_BASE_PATH: 'frontend/src/images/experiments/',
   IMAGE_NEW_BASE_URL: '/static/images/experiments/',

@@ -5,7 +5,7 @@
   button {
     border-radius: $small-border-radius;
     box-shadow: none;
-    line-height: $font-unit * 1.5;
+    line-height: $font-unit * 1.6;
     margin-bottom: $grid-unit * .5;
     padding: ($grid-unit * .75) ($grid-unit * .5);
     width: 100%;
@@ -23,12 +23,6 @@
 
   input[type='checkbox'] {
     margin-right: $grid-unit * .25;
-  }
-
-  button {
-    background: transparent;
-    border: 1px solid $white;
-    font-size: $font-unit * 1.75;
   }
 
   label {
@@ -52,5 +46,21 @@
       height: auto;
       margin-bottom: $grid-unit * .5;
     }
+  }
+}
+
+.newsletter-form-modal {
+  input[type='email'] {
+    border: 1px solid $transparent-black-3;
+    // border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+
+  a {
+    color: $default;
+  }
+
+  p.disclaimer {
+    text-align: center;
+    width: 100%;
   }
 }

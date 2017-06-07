@@ -2,10 +2,10 @@ import React from 'react';
 import moment from 'moment';
 
 import classnames from 'classnames';
+import parser from 'html-react-parser';
 
-import { buildSurveyURL, createMarkup, experimentL10nId, formatDate } from '../lib/utils';
+import { buildSurveyURL, experimentL10nId, formatDate } from '../lib/utils';
 
-import LoadingPage from './LoadingPage';
 import NotFoundPage from './NotFoundPage';
 
 import EmailDialog from '../components/EmailDialog';
@@ -28,8 +28,8 @@ import { VariantTests, VariantTestCase, VariantTestDefault } from '../components
 
 export default class ExperimentPage extends React.Component {
   render() {
-    const { getExperimentBySlug, params } = this.props;
-    const experiment = getExperimentBySlug(params.slug);
+    const { getExperimentBySlug, slug } = this.props;
+    const experiment = getExperimentBySlug(slug);
     return <ExperimentDetail experiment={experiment} {...this.props} />;
   }
 }
@@ -128,11 +128,6 @@ export class ExperimentDetail extends React.Component {
     }
   }
 
-  isValidVersion(min) {
-    const version = parseInt(this.props.userAgent.split('/').pop(), 10);
-    return typeof min === 'undefined' || version >= min;
-  }
-
   getIncompatibleInstalled(incompatible) {
     if (!incompatible) {
       return [];
@@ -172,8 +167,8 @@ export class ExperimentDetail extends React.Component {
   }
 
   renderLocaleWarning() {
-    const { experiment, locale } = this.props;
-    if (locale && ((experiment.locales && !experiment.locales.includes(locale)) || (experiment.locale_blocklist && experiment.locale_blocklist.includes(locale)))) {
+    const { experiment, locale, hasAddon } = this.props;
+    if (hasAddon !== null && locale && ((experiment.locales && !experiment.locales.includes(locale)) || (experiment.locale_blocklist && experiment.locale_blocklist.includes(locale)))) {
       return (
         <Warning titleL10nId="localeUnavailableWarningTitle"
                  titleL10nArgs={ JSON.stringify({ locale_code: locale }) }
@@ -196,7 +191,9 @@ export class ExperimentDetail extends React.Component {
       <Warning titleL10nId="eolIntroMessage"
                titleL10nArgs={ JSON.stringify({ title: experiment.title, completedDate }) }
                title={ title }>
-        <div data-l10n-id={this.l10nId('eolWarning')} dangerouslySetInnerHTML={createMarkup(experiment.eol_warning)}></div>
+        <div data-l10n-id={this.l10nId('eolWarning')}>
+          {parser(experiment.eol_warning)}
+        </div>
         <div className="small-spacer" />
         <a href="/about" data-l10n-id="eolNoticeLink" target="_blank">Learn more</a>
       </Warning>
@@ -208,11 +205,11 @@ export class ExperimentDetail extends React.Component {
             hasAddon, setExperimentLastSeen, clientUUID,
             setPageTitleL10N } = this.props;
 
-    // Show the loading animation if experiments haven't been loaded yet.
-    if (experiments.length === 0) { return <LoadingPage />; }
+    // Loading handled in static with react router; don't return anything if no experiments
+    if (experiments.length === 0) { return null; }
 
     // Show a 404 page if an experiment for this slug wasn't found.
-    if (!experiment) { return <NotFoundPage />; }
+    if (!experiment) { return <NotFoundPage {...this.props} />; }
 
     setPageTitleL10N('pageTitleExperiment', experiment);
 
@@ -230,9 +227,9 @@ export class ExperimentDetail extends React.Component {
             stickyHeaderSiblingHeight } = this.state;
 
     const { title, contribute_url, bug_report_url, discourse_url, privacy_preamble,
-            introduction, measurements, privacy_notice_url, changelog_url,
+            warning, introduction, measurements, privacy_notice_url, changelog_url,
             thumbnail, subtitle, survey_url, contributors, contributors_extra, contributors_extra_url, details,
-            min_release, graduation_report } = experiment;
+            min_release, max_release, graduation_report } = experiment;
 
     // Set the timestamp for when this experiment was last seen (for
     // ExperimentRowCard updated/launched banner logic)
@@ -284,7 +281,7 @@ export class ExperimentDetail extends React.Component {
 
         <View {...this.props}>
 
-        {(!hasAddon && !graduated) && <section id="testpilot-promo">
+        {hasAddon !== null && (!hasAddon && !graduated) && <section id="testpilot-promo">
           <Banner>
               <LayoutWrapper flexModifier="row-between-reverse">
                 <div className="intro-text">
@@ -304,7 +301,10 @@ export class ExperimentDetail extends React.Component {
         <div className="default-background">
           <div className={classnames(
               'details-header-wrapper',
-              { 'has-status': !!statusType, stick: useStickyHeader })
+            {
+              'has-status': !!statusType && !(installed[experiment.addon_id] && installed[experiment.addon_id].manuallyDisabled),
+              stick: useStickyHeader
+            })
             }>
             <div className={classnames('status-bar', statusType)}>
               {(statusType === 'enabled') && <span data-l10n-id="isEnabledStatusMessage" data-l10n-args={JSON.stringify({ title })}><span></span></span>}
@@ -317,6 +317,7 @@ export class ExperimentDetail extends React.Component {
               </header>
               { this.renderExperimentControls() }
               { this.renderMinimumVersionNotice(title, hasAddon, min_release) }
+              { this.renderMaximumVersionNotice(title, hasAddon, max_release) }
             </LayoutWrapper>
           </div>
           <div className="sticky-header-sibling" style={{ height: `${stickyHeaderSiblingHeight}px` }} ></div>
@@ -324,11 +325,7 @@ export class ExperimentDetail extends React.Component {
           <div id="details">
               <LayoutWrapper helperClass="details-content" flexModifier="details-content">
                 <div className="details-overview">
-                  <div className="experiment-icon-wrapper"
-                       style={{
-                         backgroundColor: `${experiment.gradient_start}`,
-                         backgroundImage: `linear-gradient(135deg, ${experiment.gradient_start}, ${experiment.gradient_stop})`
-                       }}>
+                  <div className={`experiment-icon-wrapper-${experiment.slug} experiment-icon-wrapper`}>
                     <img className="experiment-icon" src={thumbnail}></img>
                   </div>
                   <div className="details-sections">
@@ -336,10 +333,11 @@ export class ExperimentDetail extends React.Component {
                       { this.renderInstallationCount() }
                     </section>
                     {!hasAddon && <div>
-                      {!!introduction && <section className="introduction">
-                      {!graduated &&
-                        <div data-l10n-id={this.l10nId('introduction')} dangerouslySetInnerHTML={createMarkup(introduction)}></div>
-                      }
+                     {!!introduction && <section className="introduction">
+                       {!!warning && <div className="warning"><strong data-l10n-id={this.l10nId('warning')}>{warning}</strong></div>}
+-                      {!graduated && <div data-l10n-id={this.l10nId('introduction')}>
+                         {parser(introduction)}
+                        </div>}
                       </section>}
                     </div>}
                     {!graduated && <div>
@@ -424,9 +422,12 @@ export class ExperimentDetail extends React.Component {
                   {this.renderIncompatibleAddons()}
                   {this.renderLocaleWarning()}
                   {hasAddon && <div>
-                    {!!introduction && <section className="introduction">
-                      <div data-l10n-id={this.l10nId('introduction')} dangerouslySetInnerHTML={createMarkup(introduction)}></div>
-                    </section>}
+                   {!!introduction && <section className="introduction">
+                     {!!warning && <div className="warning"><strong data-l10n-id={this.l10nId('warning')}>{warning}</strong></div>}
+                     <div data-l10n-id={this.l10nId('introduction')}>
+                       {parser(introduction)}
+                     </div>
+                   </section>}
                   </div>}
                   <div className="details-list">
                     {details.map((detail, idx) => (
@@ -435,7 +436,9 @@ export class ExperimentDetail extends React.Component {
                          <img width="680" src={detail.image} />
                          <p className="caption">
                            {detail.headline && <strong data-l10n-id={this.l10nId(['details', idx, 'headline'])}>{detail.headline}</strong>}
-                           {detail.copy && <span data-l10n-id={this.l10nId(['details', idx, 'copy'])} dangerouslySetInnerHTML={createMarkup(detail.copy)}></span>}
+                           {detail.copy && <span data-l10n-id={this.l10nId(['details', idx, 'copy'])}>
+                             {parser(detail.copy)}
+                           </span>}
                          </p>
                        </div>
                      </div>
@@ -466,7 +469,9 @@ export class ExperimentDetail extends React.Component {
                   </div>}
                 {graduated &&
                   <div className="details-description">
-                    <section className="graduation-report" dangerouslySetInnerHTML={createMarkup(graduation_report)}/>
+                    <section className="graduation-report">
+                      {parser(graduation_report || '')}
+                    </section>
                   </div>}
               </LayoutWrapper>
             </div>
@@ -577,8 +582,23 @@ export class ExperimentDetail extends React.Component {
     );
   }
 
+  maxVersionCheck(max) {
+    const version = parseInt(this.props.userAgent.split('/').pop(), 10);
+    return typeof max === 'undefined' || version <= max;
+  }
+
+  minVersionCheck(min) {
+    const version = parseInt(this.props.userAgent.split('/').pop(), 10);
+    return typeof min === 'undefined' || version >= min;
+  }
+
+  isValidVersion(min, max) {
+    if (!max) max = Infinity;
+    return this.minVersionCheck(min) && this.maxVersionCheck(max);
+  }
+
   renderMinimumVersionNotice(title, hasAddon, min_release) {
-    if (hasAddon && !this.isValidVersion(min_release)) {
+    if (hasAddon && !this.minVersionCheck(min_release)) {
       return (
         <div className="upgrade-notice">
           <div data-l10n-id="upgradeNoticeTitle" data-l10n-args={JSON.stringify({ title, min_release })}></div>
@@ -589,11 +609,23 @@ export class ExperimentDetail extends React.Component {
     return null;
   }
 
+  renderMaximumVersionNotice(title, hasAddon, max_release) {
+    if (hasAddon && !this.maxVersionCheck(max_release)) {
+      return (
+        <div className="upgrade-notice">
+          <div data-l10n-id="versionChangeNotice" data-l10n-args={ JSON.stringify({ experiment_title: title }) }></div>
+          <a onClick={e => this.clickUpgradeNotice(e)} data-l10n-id="versionChangeNoticeLink" href="https://www.mozilla.org/firefox/" target="_blank">Get the current version of Firefox.</a>
+        </div>
+      );
+    }
+    return null;
+  }
+
   renderExperimentControls() {
     const { enabled, isEnabling, isDisabling, progressButtonWidth } = this.state;
     const { experiment, installed, isAfterCompletedDate, hasAddon, clientUUID } = this.props;
-    const { title, min_release, survey_url } = experiment;
-    const validVersion = this.isValidVersion(min_release);
+    const { title, min_release, max_release, survey_url } = experiment;
+    const validVersion = this.isValidVersion(min_release, max_release);
     const surveyURL = buildSurveyURL('givefeedback', title, installed, clientUUID, survey_url);
 
     if (!hasAddon || !validVersion) {
@@ -610,13 +642,17 @@ export class ExperimentDetail extends React.Component {
       if (!enabled) {
         return null;
       }
-      button = <div className="experiment-controls">
-        <button onClick={e => { e.preventDefault(); this.setState({ showEolDialog: true }); }} style={{ minWidth: progressButtonWidth }} id="uninstall-button" className={classnames(['button', 'warning'], { 'state-change': isDisabling })}><span className="state-change-inner"></span><span data-l10n-id="disableExperimentTransition" className="transition-text">Disabling...</span><span data-l10n-id="disableExperiment" data-l10n-args={JSON.stringify({ title })} className="default-text"></span></button>
+      return null;
+    }
+    if (installed && installed[experiment.addon_id] && installed[experiment.addon_id].manuallyDisabled) {
+      return <div className="experiment-controls">
+        <button disabled onClick={e => { e.preventDefault(); }} style={{ minWidth: progressButtonWidth }} id="install-button"  className={classnames(['button', 'default'])}><span data-l10n-id="experimentManuallyDisabled" data-l10n-args={JSON.stringify({ title })} className="default-text"></span></button>
       </div>;
-    } else {
-      if (enabled) {
-        button = <div className="experiment-controls">
-          <a onClick={e => this.handleFeedback(e)} data-l10n-id="giveFeedback" id="feedback-button" className="button default" href={surveyURL}>Give Feedback</a>
+    }
+    if (enabled) {
+      return (
+        <div className="experiment-controls">
+          <a onClick={e => this.handleFeedback(e)} data-l10n-id="giveFeedback" id="feedback-button" className="button default" href={surveyURL} target="_blank">Give Feedback</a>
           <button onClick={e => this.renderUninstallSurvey(e)} style={{ minWidth: progressButtonWidth }} id="uninstall-button" className={classnames(['button', 'secondary'], { 'state-change': isDisabling })}><span className="state-change-inner"></span><span data-l10n-id="disableExperimentTransition" className="transition-text">Disabling...</span><span data-l10n-id="disableExperiment" data-l10n-args={JSON.stringify({ title })} className="default-text"></span></button>
         </div>;
       } else {
@@ -677,13 +713,12 @@ export class ExperimentDetail extends React.Component {
     });
   }
 
-  feedback(evt) {
+  feedback() {
     const { experiment } = this.props;
     this.props.sendToGA('event', {
       eventCategory: 'ExperimentDetailsPage Interactions',
       eventAction: 'Give Feedback',
-      eventLabel: experiment.title,
-      outboundURL: evt.target.getAttribute('href')
+      eventLabel: experiment.title
     });
   }
 
@@ -701,11 +736,11 @@ export class ExperimentDetail extends React.Component {
   }
 
   handleFeedback(evt) {
-    evt.preventDefault();
     const { pre_feedback_copy } = this.props.experiment;
     if (pre_feedback_copy === null || !pre_feedback_copy) {
-      this.feedback(evt);
+      this.feedback();
     } else {
+      evt.preventDefault();
       this.showPreFeedbackDialog();
     }
   }
@@ -810,7 +845,7 @@ ExperimentDetail.propTypes = {
   userAgent: React.PropTypes.string,
   clientUUID: React.PropTypes.string,
   isDev: React.PropTypes.bool,
-  hasAddon: React.PropTypes.bool,
+  hasAddon: React.PropTypes.any,
   experiments: React.PropTypes.array,
   installed: React.PropTypes.object,
   installedAddons: React.PropTypes.array,
